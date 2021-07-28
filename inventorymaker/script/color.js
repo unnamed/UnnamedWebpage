@@ -46,6 +46,33 @@ const COLORS = {
 };
 
 /**
+ * Removes color codes from the given
+ * input string
+ * @param {string} input The string input
+ * @return {string} The string without color codes
+ */
+function strip(input) {
+    const output = [];
+    for (let i = 0; i < input.length; i++) {
+        const current = input.charAt(i);
+        if (current !== COLOR_CHAR) {
+            output.push(current);
+        } else if (++i >= input.length) {
+            output.push(current);
+        } else {
+            const next = input.charAt(i);
+            if (!COLORS[next] && next !== STRIKETHROUGH
+                && next !== ITALIC && next !== BOLD
+                && next !== UNDERLINE) {
+                output.push(current);
+                output.push(next);
+            }
+        }
+    }
+    return output.join('');
+}
+
+/**
  * Colorizes the given input
  * @param {string} input The string input
  * @return {string} The HTML output
