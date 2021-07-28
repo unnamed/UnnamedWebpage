@@ -1,0 +1,103 @@
+/* Workspace */
+main {
+    display: inline-block;
+    background-color: var(--workspace-bg);
+
+    width: calc(100% - (2 * var(--sidebar-width)));
+    height: calc(100vh - var(--footer-height) - var(--header-height));
+    padding: 16px;
+}
+
+main > h3 {
+    text-align: center;
+}
+
+/* Inventory table */
+#workspace {
+    display: block;
+    width: max-content;
+    margin: 20px auto;
+}
+
+#workspace table {
+    background-color: #cccccc;
+    padding: 0 10px 10px 10px;
+
+    border-spacing: 5px;
+
+    border-left: 5px solid #fff;
+    border-bottom: 5px solid #555555;
+    border-right: 5px solid #555555;
+}
+
+#workspace #inventory-outliner {
+    border: 5px solid #000;
+}
+
+#workspace .title {
+
+    width: 100%;
+
+    font-size: 36px;
+    font-weight: 100;
+
+
+
+    padding: 16px 16px 0;
+
+    background-color: #cccccc;
+    border: none;
+    border-top: 5px solid #fff;
+    border-left: 5px solid #fff;
+    border-right: 5px solid #555555;
+    outline: none;
+}
+
+#workspace td {
+    width: var(--slot-size);
+    height: var(--slot-size);
+
+    background-color: #8b8b8b;
+    cursor: pointer;
+
+    /* Shadow */
+    border-top: 5px solid #373737;
+    border-left: 5px solid #373737;
+
+    /* Light */
+    border-bottom: 5px solid #fff;
+    border-right: 5px solid #fff;
+}
+
+#workspace td img {
+    width: 100%;
+    height: 100%;
+}
+
+#workspace td:hover {
+    background-color: #dbdbdb;
+}
+
+#workspace td img:hover {
+    filter: opacity(50%);
+}
+
+.item-tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    background-color: black;
+}
+
+.item-tooltip h3, .item-tooltip p {
+    font-family: minecraftmedium, sans-serif;
+    font-weight: 100;
+}
+
+.item-tooltip h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.item-tooltip p {
+    margin-left: 8px;
+}

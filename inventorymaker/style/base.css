@@ -1,0 +1,58 @@
+/**
+    Base styles, properties for simple
+    components like buttons, selects,
+    inputs, etc...
+ */
+* {
+    /* Remove default margin and padding from all elements */
+    margin: 0;
+    padding: 0;
+
+    /* Colors */
+    --color: #ceccd2;
+    --bg: #18181d;
+    --secondary-bg: #27272b;
+    --footer-bg: #9e1919;
+    --workspace-bg: #3d3d42;
+
+    /* Properties */
+    --header-height: 50px;
+    --footer-height: 20px;
+    --sidebar-width: 20%;
+    --default-size: 16px;
+    --slot-size: 80px;
+}
+
+.text {
+    color: var(--color);
+    font-family: 'Roboto', 'Ubuntu', sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+.space-between {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Controls properties */
+button, select {
+    background: none;
+    outline: none;
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    border: 1px solid var(--color);
+    font-size: var(--default-size);
+}
+
+button:enabled:hover, select:enabled:hover {
+    cursor: pointer;
+    background-color: var(--color);
+    color: var(--bg);
+}

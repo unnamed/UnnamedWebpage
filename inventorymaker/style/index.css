@@ -1,0 +1,25 @@
+@import url("base.css");
+@import url("dialog.css");
+@import url("header.css");
+@import url("workspace.css");
+@import url("sidebar.css");
+@import url("input.css");
+@import url("../font/minecraftia-regular.css");
+
+* {
+    /* Global properties */
+    box-sizing: border-box;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    height: var(--footer-height);
+    background-color: var(--footer-bg);
+
+    padding: 0 36px;
+}
+
+footer p {
+    display: inline;
+}

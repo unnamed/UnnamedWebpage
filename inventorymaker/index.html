@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, height=device-height">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Display metadata -->
+    <meta property="og:title" content="Unnamed Team | inventorymaker">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://unnamed.team/inventorymaker">
+    <meta property="og:description" content="Web-application to create Minecraft inventories with a pretty GUI">
+
+    <link rel="stylesheet" href="style/index.css">
+    <title>inventorymaker</title>
+</head>
+<body>
+
+<!-- Shown dialog, initially hidden -->
+<div class="hidden" id="dialog-bg">
+    <div id="dialog">
+        <h2 id="dialog__heading"></h2>
+        <p id="dialog__info"></p>
+        <div id="dialog__options">
+            <button id="close-dialog">Ok</button>
+        </div>
+    </div>
+</div>
+
+<!-- Header or Toolbar -->
+<header class="space-between">
+    <!-- Brand -->
+    <div class="header__element">
+        <h2 class="text">inventorymaker</h2>
+    </div>
+
+    <!-- Editor Tools -->
+    <div class="header__element header__tools space-between">
+
+        <!-- Minecraft Version-->
+        <select class="text" name="version-select" id="version-select">
+            <option value="1.8">1.8</option>
+            <option value="1.13">1.13</option>
+        </select>
+
+        <!-- Controls -->
+        <button class="text" id="add-row">Add Row</button>
+    </div>
+
+    <!-- Buttons -->
+    <div class="header__element">
+        <button class="text" id="import">Import</button>
+        <button class="text" id="export">Export</button>
+    </div>
+</header>
+
+<!-- Left sidebar -->
+<nav class="left-sidebar">
+    <h3 class="text sidebar-heading">Item List</h3>
+</nav>
+
+<!-- Main, the editor -->
+<main>
+    <h3 class="text">Workspace</h3>
+    <div id="workspace">
+        <div id="inventory-outliner">
+            <!-- data-value specifies the default value in the input -->
+            <div
+                    class="mc-text-input title"
+                    data-inputid="title"
+                    data-outputid="title-output"
+                    data-value="Click me">
+                <!-- Empty, this gets filled with invisible elements to simulate
+                        a live minecraft text editor-->
+            </div>
+            <table>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Right sidebar -->
+<nav class="right-sidebar disabled-sidebar">
+
+    <h3 class="text sidebar-heading">Item</h3>
+
+    <div class="item-input">
+        <label class="text" for="item-type">Type</label>
+        <select class="text" name="item-type" id="item-type" disabled>
+        </select>
+    </div>
+
+    <div class="item-input">
+        <label class="text" for="display-name">Display Name</label>
+        <input class="text" type="text" id="display-name" disabled>
+    </div>
+
+    <div class="item-input">
+        <label class="text" for="lore">Lore</label>
+        <textarea class="text" name="lore" id="lore" disabled></textarea>
+    </div>
+
+    <div class="item-input horizontal-control-container">
+        <button class="text" id="update-item" disabled>Update</button>
+        <button class="text" id="remove-item" disabled>Remove</button>
+    </div>
+</nav>
+
+<!-- Footer -->
+<footer class="space-between">
+    <p class="text">inventorymaker v1.0.0</p>
+    <p class="text" id="time">00:00:00</p>
+    <p class="text">Made by Yusshu#5330</p>
+</footer>
+
+<script src="script/color.js"></script>
+<script src="script/input.js"></script>
+<script src="script/index.js"></script>
+
+</body>
+</html>
