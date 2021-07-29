@@ -41,16 +41,11 @@ let items = {};
 //#endregion
 
 async function load() {
-
-    function encodeType(type, meta) {
-        return (type << 4) + meta;
-    }
-
     // item list fetch
     const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/data/items.json');
     if (response.ok) {
         (await response.json()).forEach(item => {
-            const key = encodeType(item.type, item.meta);
+            const key = (item.type << 4) + item.meta;
             items[key + ""] = item;
             const option = document.createElement("option");
             option.value = key;
