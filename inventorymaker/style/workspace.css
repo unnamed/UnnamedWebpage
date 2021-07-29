@@ -41,8 +41,6 @@ main > h3 {
     font-size: 36px;
     font-weight: 100;
 
-
-
     padding: 16px 16px 0;
 
     background-color: #cccccc;
@@ -84,20 +82,14 @@ main > h3 {
 
 .item-tooltip {
     position: absolute;
-    padding: 8px 12px;
-    background-color: black;
-}
-
-.item-tooltip h3, .item-tooltip p {
-    font-family: minecraftmedium, sans-serif;
-    font-weight: 100;
-}
-
-.item-tooltip h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
+    padding: 0 8px;
+    background-color: #000;
+    border: 3px solid #2a0d74;
+    outline: 3px solid #000;
 }
 
 .item-tooltip p {
-    margin-left: 8px;
+    font-family: minecraftmedium, sans-serif;
+    font-weight: 100;
+    margin: 5px 0;
 }

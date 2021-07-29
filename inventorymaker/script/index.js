@@ -121,8 +121,8 @@ function draw() {
 
                 // TODO: This is vulnerable, we should sanitize the display name and lore
                 hover.innerHTML = `
-                    <h3 class="text">${item.displayName}</h3>
-                    <p class="text">${item.lore.join('<br>')}</p>
+                    <p class="text">${colorize(item.displayName)}</p>
+                    <p class="text">${colorize(item.lore.join('<br>'))}</p>
                 `;
 
                 const img = document.createElement("img");
