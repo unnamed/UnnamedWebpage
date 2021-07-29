@@ -85,10 +85,8 @@
 <!-- Right sidebar -->
 <nav class="right-sidebar">
 
-    <h3 class="text sidebar-heading">Menu</h3>
-
     <div class="sidebar-input">
-        <label class="text" for="title">Title</label>
+        <label class="text" for="title">Inventory Title</label>
         <input
                 class="text live-input"
                 type="text"
@@ -96,8 +94,6 @@
                 value="Title"
                 data-bound="title-display">
     </div>
-
-    <h3 class="text sidebar-heading">Item</h3>
 
     <div class="sidebar-input">
         <label class="text" for="item-type">Type</label>
@@ -110,7 +106,7 @@
         <input class="text" type="text" id="display-name" disabled>
     </div>
 
-    <div class="sidebar-input">
+    <div class="sidebar-input" id="lore-input">
         <label class="text" for="lore">Lore</label>
         <textarea class="text" name="lore" id="lore" disabled></textarea>
     </div>
