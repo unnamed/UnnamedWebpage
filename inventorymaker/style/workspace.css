@@ -23,7 +23,7 @@ main > h3 {
     background-color: #cccccc;
     padding: 0 10px 10px 10px;
 
-    border-spacing: 5px;
+    border-spacing: 0;
 
     border-left: 5px solid #fff;
     border-bottom: 5px solid #555555;
