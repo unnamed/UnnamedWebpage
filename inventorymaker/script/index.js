@@ -133,7 +133,12 @@ function draw() {
         const tableRow = newBody.insertRow();
         for (let slot = 0; slot < ROW_SIZE; slot++) {
             const item = rowData[slot];
-            const cell = tableRow.insertCell();
+
+            const realCell = tableRow.insertCell();
+            const cell = document.createElement("div");
+
+            cell.classList.add("cell-content");
+            realCell.appendChild(cell);
 
             cell.addEventListener("click", () => {
                 if (item) {

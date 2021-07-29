@@ -15,11 +15,13 @@ main > h3 {
 /* Inventory table */
 #workspace {
     display: block;
-    width: max-content;
+    width: 90%;
     margin: 20px auto;
 }
 
 #workspace table {
+
+    width: 100%;
     background-color: #cccccc;
     padding: 0 10px 10px 10px;
 
@@ -51,9 +53,24 @@ main > h3 {
     outline: none;
 }
 
+#workspace td::after {
+    content: '';
+    display: block;
+    margin-top: 100%;
+}
+
+.cell-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 #workspace td {
-    width: var(--slot-size);
-    height: var(--slot-size);
+
+    position: relative;
+    width: 11.11%;
 
     background-color: #8b8b8b;
     cursor: pointer;
