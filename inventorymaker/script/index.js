@@ -40,20 +40,6 @@ const MAX_ROWS = 6;
 let items = {};
 //#endregion
 
-(async () => {
-    // item list fetch
-    const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/data/items.json');
-    (await response.json()).forEach(item => {
-        const key = (item.type << 4) + item.meta;
-        items[key + ""] = item;
-        const option = document.createElement("option");
-        option.value = key;
-        option.innerHTML = item.name;
-        itemTypeElement.options.add(option);
-        draw();
-    });
-})().catch(e => showDialog(`Error while importing items: ${e.name}`, e.message));
-
 /**
  * Object containing the menu information
  * @type {Inventory}
@@ -64,13 +50,21 @@ let data = {
     },
     title: "Title",
     rows: [
-        []
+        [
+            {
+                type: 1 << 4,
+                displayName: 'Test',
+                lore: []
+            }
+        ]
     ]
 };
 
 // alias
 const $ = selectors => document.querySelector(selectors);
 
+const itemSearchElement = $("#item-search");
+const itemListElement = $("#item-list");
 const itemTypeElement = $("#item-type");
 const removeItemElement = $("#remove-item");
 const displayNameElement = $("#display-name");
@@ -79,6 +73,62 @@ const titleInput = $("#title");
 const titleOutput = $("#title-display");
 
 let tableBody = $("#table-body");
+let dragging = undefined;
+
+itemSearchElement.addEventListener("input", event => {
+    const query = event.target.value;
+    console.log(query);
+    for (const element of itemListElement.children) {
+        if (element.children.item(1).innerHTML.toLowerCase().includes(query)) {
+            element.classList.remove("hidden");
+        } else {
+            element.classList.add("hidden");
+        }
+    }
+})
+
+function src(type, meta) {
+    return `https://github.com/unnamed/webpage/raw/master/inventorymaker/data/items/${type}-${meta}.png`;
+}
+
+(async () => {
+    // item list fetch
+    const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/data/items.json');
+    (await response.json()).forEach(item => {
+
+        if (item.type === 0) {
+            // ignore air
+            return;
+        }
+
+        const key = (item.type << 4) + item.meta;
+        items[key + ""] = item;
+        const option = document.createElement("option");
+        option.value = key;
+        option.innerHTML = item.name;
+        itemTypeElement.options.add(option);
+
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("item-element");
+        const img = document.createElement("img");
+        img.classList.add("lazyload");
+        img.src = src(item.type, item.meta);
+        const label = document.createElement("p");
+        label.classList.add("text");
+        label.innerHTML = item.name;
+
+        itemElement.appendChild(img);
+        itemElement.appendChild(label);
+        itemElement.setAttribute("draggable", "true");
+
+        itemElement.addEventListener("dragstart", () => {
+            dragging = key + "";
+        });
+        itemListElement.appendChild(itemElement);
+
+        draw();
+    });
+})().catch(e => showDialog(`Error while importing items: ${e.name}`, e.message));
 
 const itemTooltip = (() => {
     const container = $("#item-tooltip");
@@ -137,12 +187,25 @@ function draw() {
             const realCell = tableRow.insertCell();
             const cell = document.createElement("div");
 
+            cell.addEventListener("dragover", event => event.preventDefault());
+            cell.addEventListener("drop", event => {
+                event.preventDefault();
+                if (!item) {
+                    rowData[slot] = {
+                        type: dragging,
+                        displayName: '',
+                        lore: []
+                    };
+                    draw();
+                }
+            });
+
             cell.classList.add("cell-content");
             realCell.appendChild(cell);
 
             cell.addEventListener("click", () => {
                 if (item) {
-                    if (itemTooltip.location === [row, slot]) {
+                    if (itemTooltip.pinLocation && itemTooltip.pinLocation[0] === row && itemTooltip.pinLocation[1] === slot) {
                         itemTooltip.hide();
                         itemTooltip.pinLocation = undefined;
                         itemTooltip.location = undefined;
@@ -164,13 +227,13 @@ function draw() {
                     itemTooltip.setItem(item);
                 });
                 img.addEventListener("mouseleave", () => {
-                    if (itemTooltip.location !== [row, slot]) {
+                    if (!itemTooltip.pinLocation || itemTooltip.location[0] !== row || itemTooltip.location[1] !== slot) {
                         itemTooltip.hide();
                         if (itemTooltip.location !== undefined && itemTooltip.pinLocation !== undefined) {
                             const [row, slot] = itemTooltip.pinLocation;
                             const daCell = tableBody.rows[row].cells.item(slot);
                             const item = getItem(row, slot);
-                            itemTooltip.replaceParent(daCell);
+                            itemTooltip.replaceParent(daCell.children.item(0));
                             itemTooltip.setItem(item);
                         }
                     }
@@ -179,7 +242,7 @@ function draw() {
                 const type = item.type >> 4;
                 const meta = item.type & 15;
 
-                img.src = `https://github.com/unnamed/webpage/raw/master/inventorymaker/data/items/${type}-${meta}.png`;
+                img.src = src(type, meta);
                 cell.appendChild(img);
             }
         }
@@ -205,6 +268,7 @@ function setSelection(row, slot, item) {
     loreElement.disabled = false;
 
     if (item) {
+        itemTypeElement.value = item.type;
         displayNameElement.value = item.displayName;
         loreElement.value = item.lore.join("\n");
     } else {

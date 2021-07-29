@@ -63,7 +63,11 @@
 
 <!-- Left sidebar -->
 <nav class="left-sidebar">
-    <h3 class="text sidebar-heading">Item List</h3>
+    <div class="sidebar-input">
+        <input class="text" type="text" id="item-search" placeholder="Search items...">
+    </div>
+    <div id="item-list">
+    </div>
 </nav>
 
 <!-- Main, the editor -->
@@ -122,6 +126,7 @@
     <p class="text">Made by Yusshu#5330</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
 <script src="script/timer.js"></script>
 <script src="script/alertlib.js"></script>
 <script src="script/color.js"></script>

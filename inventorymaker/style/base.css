@@ -30,7 +30,9 @@
 }
 
 .hidden {
-    display: none;
+    /* !important is a bad practice but
+        it must be the most important style */
+    display: none !important;
 }
 
 .space-between {

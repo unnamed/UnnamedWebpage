@@ -5,7 +5,7 @@ nav {
     height: calc(100vh - var(--header-height) - var(--footer-height));
     background-color: var(--secondary-bg);
     width: var(--sidebar-width);
-    padding: 8px 50px;
+    padding: 8px 16px;
 
     flex-direction: column;
     justify-content: space-around;
@@ -14,12 +14,37 @@ nav {
     margin: 0;
 }
 
-.sidebar-heading {
-    text-align: center;
+.left-sidebar {
+    display: inline-block;
+    float: left;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
-.left-sidebar {
-    float: left;
+#item-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.item-element {
+    cursor: move;
+    display: inline-block;
+    border: 1px solid var(--color);
+    padding: .8vw;
+    width: 45%;
+    margin: .3vw;
+}
+
+.item-element img {
+    display: block;
+    height: 6vw;
+    margin-bottom: 10px;
+}
+
+.item-element p {
+    display: block;
+    width: 50px;
 }
 
 .right-sidebar {
