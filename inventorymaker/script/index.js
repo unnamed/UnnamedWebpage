@@ -35,12 +35,32 @@ const FORMAT_VERSION = 1;
 const ROW_SIZE = 9;
 const MAX_ROWS = 6;
 /**
- * TODO: XD
- * Array containing possible materials
- * @type {string[]}
+ * Object containing possible entries
  */
-const MATERIALS = ["diamond_sword", "flint"];
+let items = {};
 //#endregion
+
+async function load() {
+
+    function encodeType(type, meta) {
+        return (type << 4) + meta;
+    }
+
+    // item list fetch
+    const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/data/items.json');
+    if (response.ok) {
+        (await response.json()).forEach(item => {
+            const key = encodeType(item.type, item.meta);
+            items[key + ""] = item;
+            const option = document.createElement("option");
+            option.value = key;
+            option.innerHTML = item.name;
+            itemTypeElement.options.add(option);
+        });
+    } // TODO: show errors
+}
+
+load().catch(console.error);
 
 /**
  * Object containing the menu information
@@ -53,22 +73,9 @@ let data = {
     title: "Click me!",
     rows: [
         [
-            {
-                type: 'diamond_sword',
-                displayName: 'Diamond Sword',
-                lore: [
-                    'Well....'
-                ]
-            }
         ]
     ]
 };
-
-/**
- * The used minecraft version
- * @type string
- */
-let minecraftVersion = "1.8";
 
 // alias
 const $ = selectors => document.querySelector(selectors);
@@ -79,7 +86,6 @@ const updateItemElement = $("#update-item");
 const removeItemElement = $("#remove-item");
 const displayNameElement = $("#display-name");
 const loreElement = $("#lore");
-const dialogElement = $("#dialog-bg");
 const titleInput = $("#title");
 const titleOutput = $("#title-output");
 
@@ -93,14 +99,6 @@ let tableBody = $("#table-body");
  * @type {number[] | undefined}
  */
 let selectedSlot = undefined;
-
-// write the item types
-MATERIALS.forEach(material => {
-    const option = document.createElement("option");
-    option.value = material;
-    option.innerHTML = material;
-    itemTypeElement.options.add(option);
-});
 
 /**
  * Updates the selection sidebar for editing the
@@ -213,15 +211,19 @@ function draw() {
 
                 // TODO: This is vulnerable, we should sanitize the display name and lore
                 hover.innerHTML = `
-                    <h3>${item.displayName}</h3>
-                    <p>${item.lore.join('<br>')}</p>
+                    <h3 class="text">${item.displayName}</h3>
+                    <p class="text">${item.lore.join('<br>')}</p>
                 `;
 
                 const img = document.createElement("img");
 
                 img.addEventListener("mouseenter", () => hover.classList.remove("hidden"));
                 img.addEventListener("mouseleave", () => hover.classList.add("hidden"));
-                img.src = `items/${minecraftVersion}/${item.type.toLowerCase()}.png`;
+
+                const type = item.type >> 4;
+                const meta = item.type & 15;
+
+                img.src = `https://github.com/unnamed/webpage/raw/master/inventorymaker/data/items/${type}-${meta}.png`;
 
                 cell.appendChild(img);
                 cell.appendChild(hover);
@@ -248,26 +250,6 @@ function addRow() {
     }
     data.rows.push([]);
     draw();
-}
-
-/**
- * Shows a dialog and sets the given title
- * and description to it
- * @param {string} title The dialog title
- * @param {string} description The dialog description
- */
-function showDialog(title, description) {
-    document.getElementById("dialog__heading").innerText = title;
-    document.getElementById("dialog__info").innerText = description;
-    // show the dialog
-    dialogElement.classList.remove("hidden");
-}
-
-/**
- * Closes the dialog (hides it)
- */
-function closeDialog() {
-    dialogElement.classList.add("hidden");
 }
 
 /**
@@ -331,7 +313,6 @@ function exportInfo() {
 
 draw();
 
-$("#close-dialog").addEventListener("click", closeDialog);
 $("#import").addEventListener("click", importInfo);
 $("#export").addEventListener("click", exportInfo);
 $("#add-row").addEventListener("click", addRow);
