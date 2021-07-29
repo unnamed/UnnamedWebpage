@@ -1,64 +1,19 @@
 /**
- * Code for handling custom input
- * elements
+ * Code for binding input elements with
+ * their "Minecraft-style" display elements
  */
 
+const INPUT_CLASS = "live-input";
 
-/**
- * Divs using this class will be filled with an
- * input and another div to simulate the live editor
- * @type {string}
- */
-const INPUT_CLASS = "mc-text-input";
+for (const input of document.getElementsByClassName(INPUT_CLASS)) {
 
-/**
- * Class for the output divs, they will contain the
- * colorized output
- * @type {string}
- */
-const SHOWN_CLASS = "mc-text-output";
+    const output = document.getElementById(input.dataset.bound);
 
-/**
- * now start generating the real input and the output
- * elements
- */
-for (const div of document.getElementsByClassName(INPUT_CLASS)) {
-
-    const input = document.createElement("input");
-    const output = document.createElement("div");
-
-    const inputId = div.dataset.inputid;
-    const outputId = div.dataset.outputid;
-
-    // setup input
-    input.style.position = "absolute";
-    input.style.opacity = "0";
-    input.style.top = "-100%";
-    input.style.left = "-100%";
-    if (inputId) {
-        input.setAttribute("id", inputId);
-    }
-
-    // setup output
-    output.innerHTML = colorize(div.dataset.value || ""); // initial value
-    output.classList.add(SHOWN_CLASS);
-    if (outputId) {
-        output.setAttribute("id", outputId);
-    }
-
-    // when clicking the shown div, make it click the real input
-    output.addEventListener("click", event => {
-        input.focus();
-        event.preventDefault();
-    });
-
-    // listen to changes in the real input
+    // update 'output' when 'input' changes
     input.addEventListener("input", event => {
-        const value = event.target.value;
-        output.innerHTML = colorize(value);
+        output.innerHTML = colorize(event.target.value);
     });
 
-    // append the generated elements
-    div.appendChild(input);
-    div.appendChild(output);
+    // initial update
+    output.innerHTML = colorize(input.value);
 }

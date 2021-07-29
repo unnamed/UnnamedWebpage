@@ -28,15 +28,15 @@ nav {
     filter: brightness(60%) blur(1px);
 }
 
-.item-input {
+.sidebar-input {
     margin: 20px auto;
 }
 
-.item-input select:enabled:hover {
+.sidebar-input select:enabled:hover {
     background-color: var(--color);
 }
 
-.item-input input, .item-input textarea, .item-input select {
+.sidebar-input input, .sidebar-input textarea, .sidebar-input select {
     border: 1px solid var(--color);
     margin: 8px 0 12px;
     font-size: 16px;

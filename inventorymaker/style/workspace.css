@@ -34,7 +34,7 @@ main > h3 {
     border: 5px solid #000;
 }
 
-#workspace .title {
+#workspace #title-display {
 
     width: 100%;
 
@@ -80,7 +80,7 @@ main > h3 {
     filter: opacity(50%);
 }
 
-.item-tooltip {
+#item-tooltip {
     position: absolute;
     padding: 0 8px;
     background-color: #000;
@@ -88,7 +88,7 @@ main > h3 {
     outline: 3px solid #000;
 }
 
-.item-tooltip p {
+#item-tooltip p {
     font-family: minecraftmedium, sans-serif;
     font-weight: 100;
     margin: 5px 0;

@@ -40,6 +40,12 @@
     justify-content: space-between;
 }
 
+/** Live-input rendering styles */
+.mc-text-output {
+    color: #3f3f3f;
+    font-family: 'minecraftmedium', sans-serif;
+}
+
 /* Controls properties */
 button, select {
     background: none;

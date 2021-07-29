@@ -28,6 +28,12 @@
     </div>
 </div>
 
+<!-- Item tooltip, initially hidden -->
+<div class="hidden" id="item-tooltip">
+    <p class="text" id="display-name-display"></p>
+    <p class="text" id="lore-display"></p>
+</div>
+
 <!-- Header or Toolbar -->
 <header class="space-between">
     <!-- Brand -->
@@ -65,14 +71,8 @@
     <h3 class="text">Workspace</h3>
     <div id="workspace">
         <div id="inventory-outliner">
-            <!-- data-value specifies the default value in the input -->
-            <div
-                    class="mc-text-input title"
-                    data-inputid="title"
-                    data-outputid="title-output"
-                    data-value="Click me">
-                <!-- Empty, this gets filled with invisible elements to simulate
-                        a live minecraft text editor-->
+            <div class="mc-text-output title" id="title-display">
+                <!-- Generated with JavaScript -->
             </div>
             <table>
                 <tbody id="table-body">
@@ -83,28 +83,39 @@
 </main>
 
 <!-- Right sidebar -->
-<nav class="right-sidebar disabled-sidebar">
+<nav class="right-sidebar">
+
+    <h3 class="text sidebar-heading">Menu</h3>
+
+    <div class="sidebar-input">
+        <label class="text" for="title">Title</label>
+        <input
+                class="text live-input"
+                type="text"
+                id="title"
+                value="Title"
+                data-bound="title-display">
+    </div>
 
     <h3 class="text sidebar-heading">Item</h3>
 
-    <div class="item-input">
+    <div class="sidebar-input">
         <label class="text" for="item-type">Type</label>
         <select class="text" name="item-type" id="item-type" disabled>
         </select>
     </div>
 
-    <div class="item-input">
+    <div class="sidebar-input">
         <label class="text" for="display-name">Display Name</label>
         <input class="text" type="text" id="display-name" disabled>
     </div>
 
-    <div class="item-input">
+    <div class="sidebar-input">
         <label class="text" for="lore">Lore</label>
         <textarea class="text" name="lore" id="lore" disabled></textarea>
     </div>
 
-    <div class="item-input horizontal-control-container">
-        <button class="text" id="update-item" disabled>Update</button>
+    <div class="sidebar-input horizontal-control-container">
         <button class="text" id="remove-item" disabled>Remove</button>
     </div>
 </nav>
@@ -116,10 +127,12 @@
     <p class="text">Made by Yusshu#5330</p>
 </footer>
 
+<script src="script/timer.js"></script>
 <script src="script/alertlib.js"></script>
 <script src="script/color.js"></script>
-<script src="script/input.js"></script>
 <script src="script/index.js"></script>
+<script src="script/input.js"></script>
+<script src="script/export.js"></script>
 
 </body>
 </html>
