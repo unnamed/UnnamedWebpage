@@ -9,16 +9,3 @@
     /* Global properties */
     box-sizing: border-box;
 }
-
-/* Footer */
-footer {
-    display: flex;
-    height: var(--footer-height);
-    background-color: var(--footer-bg);
-
-    padding: 0 36px;
-}
-
-footer p {
-    display: inline;
-}

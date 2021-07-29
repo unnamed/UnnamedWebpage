@@ -4,7 +4,7 @@ main {
     background-color: var(--workspace-bg);
 
     width: calc(100% - (2 * var(--sidebar-width)));
-    height: calc(100vh - var(--footer-height) - var(--header-height));
+    height: calc(100vh - var(--header-height));
     padding: 16px;
 }
 
