@@ -1,4 +1,3 @@
-import "./timer";
 import { showDialog } from "./alertlib";
 import { colorize } from "./color";
 import { FORMAT_VERSION } from "./export";
