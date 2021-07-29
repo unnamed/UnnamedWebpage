@@ -40,22 +40,18 @@ const MAX_ROWS = 6;
 let items = {};
 //#endregion
 
-async function load() {
+(async () => {
     // item list fetch
     const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/data/items.json');
-    if (response.ok) {
-        (await response.json()).forEach(item => {
-            const key = (item.type << 4) + item.meta;
-            items[key + ""] = item;
-            const option = document.createElement("option");
-            option.value = key;
-            option.innerHTML = item.name;
-            itemTypeElement.options.add(option);
-        });
-    } // TODO: show errors
-}
-
-load().catch(console.error);
+    (await response.json()).forEach(item => {
+        const key = (item.type << 4) + item.meta;
+        items[key + ""] = item;
+        const option = document.createElement("option");
+        option.value = key;
+        option.innerHTML = item.name;
+        itemTypeElement.options.add(option);
+    });
+})().catch(e => showDialog(`Error while importing items: ${e.name}`, e.message));
 
 /**
  * Object containing the menu information
@@ -86,6 +82,7 @@ const titleOutput = $("#title-output");
 
 let tableBody = $("#table-body");
 
+
 /**
  * Contains the selected slot, undefined
  * if no selection.
@@ -94,6 +91,60 @@ let tableBody = $("#table-body");
  * @type {number[] | undefined}
  */
 let selectedSlot = undefined;
+
+/**
+ * Draws the menu to the HTML
+ */
+function draw() {
+
+    // update title
+    titleInput.value = data.title;
+    titleOutput.innerHTML = colorize(data.title);
+
+    // remove all rows first
+    const newBody = document.createElement("tbody");
+
+    // then write the new rows
+    for (let row = 0; row < data.rows.length; row++) {
+        const rowData = data.rows[row];
+        const tableRow = newBody.insertRow();
+        for (let slot = 0; slot < ROW_SIZE; slot++) {
+            const item = rowData[slot];
+            const cell = tableRow.insertCell();
+
+            cell.addEventListener("click", () => setSelection(row, slot, item));
+
+            if (item) {
+                const hover = document.createElement("div");
+                hover.classList.add("item-tooltip");
+                hover.classList.add("hidden");
+
+                // TODO: This is vulnerable, we should sanitize the display name and lore
+                hover.innerHTML = `
+                    <h3 class="text">${item.displayName}</h3>
+                    <p class="text">${item.lore.join('<br>')}</p>
+                `;
+
+                const img = document.createElement("img");
+
+                img.addEventListener("mouseenter", () => hover.classList.remove("hidden"));
+                img.addEventListener("mouseleave", () => hover.classList.add("hidden"));
+
+                const type = item.type >> 4;
+                const meta = item.type & 15;
+
+                img.src = `https://github.com/unnamed/webpage/raw/master/inventorymaker/data/items/${type}-${meta}.png`;
+
+                cell.appendChild(img);
+                cell.appendChild(hover);
+            }
+        }
+    }
+
+    // replace
+    tableBody.parentNode.replaceChild(newBody, tableBody);
+    tableBody = newBody;
+}
 
 /**
  * Updates the selection sidebar for editing the
@@ -175,60 +226,6 @@ function removeSelection() {
 
     displayNameElement.value = "";
     loreElement.value = "";
-}
-
-/**
- * Draws the menu to the HTML
- */
-function draw() {
-
-    // update title
-    titleInput.value = data.title;
-    titleOutput.innerHTML = colorize(data.title);
-
-    // remove all rows first
-    const newBody = document.createElement("tbody");
-
-    // then write the new rows
-    for (let row = 0; row < data.rows.length; row++) {
-        const rowData = data.rows[row];
-        const tableRow = newBody.insertRow();
-        for (let slot = 0; slot < ROW_SIZE; slot++) {
-            const item = rowData[slot];
-            const cell = tableRow.insertCell();
-
-            cell.addEventListener("click", () => setSelection(row, slot, item));
-
-            if (item) {
-                const hover = document.createElement("div");
-                hover.classList.add("item-tooltip");
-                hover.classList.add("hidden");
-
-                // TODO: This is vulnerable, we should sanitize the display name and lore
-                hover.innerHTML = `
-                    <h3 class="text">${item.displayName}</h3>
-                    <p class="text">${item.lore.join('<br>')}</p>
-                `;
-
-                const img = document.createElement("img");
-
-                img.addEventListener("mouseenter", () => hover.classList.remove("hidden"));
-                img.addEventListener("mouseleave", () => hover.classList.add("hidden"));
-
-                const type = item.type >> 4;
-                const meta = item.type & 15;
-
-                img.src = `https://github.com/unnamed/webpage/raw/master/inventorymaker/data/items/${type}-${meta}.png`;
-
-                cell.appendChild(img);
-                cell.appendChild(hover);
-            }
-        }
-    }
-
-    // replace
-    tableBody.parentNode.replaceChild(newBody, tableBody);
-    tableBody = newBody;
 }
 
 /**
