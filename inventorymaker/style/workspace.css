@@ -98,6 +98,7 @@ main > h3 {
 }
 
 #item-tooltip {
+    z-index: 100;
     position: absolute;
     padding: 0 8px;
     background-color: #000;
