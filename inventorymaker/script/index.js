@@ -40,6 +40,7 @@ const MAX_ROWS = 6;
 let items = {};
 //#endregion
 
+// TODO: fix this code, it's puajj
 /**
  * Object containing the menu information
  * @type {Inventory}
