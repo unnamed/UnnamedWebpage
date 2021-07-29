@@ -51,13 +51,7 @@ let data = {
     },
     title: "Title",
     rows: [
-        [
-            {
-                type: 1 << 4,
-                displayName: 'Test',
-                lore: []
-            }
-        ]
+        []
     ]
 };
 
@@ -78,7 +72,6 @@ let dragging = undefined;
 
 itemSearchElement.addEventListener("input", event => {
     const query = event.target.value;
-    console.log(query);
     for (const element of itemListElement.children) {
         if (element.children.item(1).innerHTML.toLowerCase().includes(query)) {
             element.classList.remove("hidden");
@@ -327,6 +320,15 @@ $("#add-row").addEventListener("click", addRow);
 removeItemElement.addEventListener("click", removeSelection);
 titleInput.addEventListener("input", event => data.title = event.target.value);
 
+itemTypeElement.addEventListener("change", event => {
+    if (!itemTooltip.pinLocation) {
+        return;
+    }
+    const [ row, slot ] = itemTooltip.pinLocation;
+    const item = getItem(row, slot);
+    item.type = parseInt(event.target.value);
+    draw();
+});
 displayNameElement.addEventListener("input", event => {
     if (itemTooltip.location === itemTooltip.pinLocation) {
         itemTooltip.nameElement.innerHTML = colorize(event.target.value);
