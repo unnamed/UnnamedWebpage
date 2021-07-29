@@ -51,7 +51,7 @@ const COLORS = {
  * @param {string} input The string input
  * @return {string} The string without color codes
  */
-function strip(input) {
+export function strip(input) {
     const output = [];
     for (let i = 0; i < input.length; i++) {
         const current = input.charAt(i);
@@ -77,7 +77,7 @@ function strip(input) {
  * @param {string} input The string input
  * @return {string} The HTML output
  */
-function colorize(input) {
+export function colorize(input) {
     const output = [];
     let suffixes = [];
 

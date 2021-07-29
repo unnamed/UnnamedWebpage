@@ -1,3 +1,6 @@
+export const FORMAT_VERSION = 1;
+import { showDialog } from "./alertlib";
+
 /**
  * Asks an user for a file and reads it as JSON
  */

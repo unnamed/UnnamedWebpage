@@ -1,3 +1,9 @@
+import "./timer";
+import { showDialog } from "./alertlib";
+import { colorize } from "./color";
+import { FORMAT_VERSION } from "./export";
+import "./input";
+
 //#region Type definitions
 /**
  * Represents a Minecraft Item
@@ -31,7 +37,6 @@
 //#endregion
 
 //#region Some constants
-const FORMAT_VERSION = 1;
 const ROW_SIZE = 9;
 const MAX_ROWS = 6;
 /**
@@ -340,5 +345,12 @@ displayNameElement.addEventListener("input", event => {
     }
 });
 loreElement.addEventListener("input", event => {
-    itemTooltip.loreElement.innerHTML = colorize(event.target.value.replace(/\r?\n/g, '<br>'));
+    if (itemTooltip.location === itemTooltip.pinLocation) {
+        itemTooltip.loreElement.innerHTML = colorize(event.target.value.replace(/\r?\n/g, '<br>'));
+    }
+    if (itemTooltip.pinLocation) {
+        const [ row, slot ] = itemTooltip.pinLocation;
+        const item = getItem(row, slot);
+        item.lore = event.target.value.split(/\r?\n/g)
+    }
 })

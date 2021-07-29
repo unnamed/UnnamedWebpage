@@ -1,3 +1,5 @@
+import { colorize } from "./color";
+
 /**
  * Code for binding input elements with
  * their "Minecraft-style" display elements

@@ -6,7 +6,7 @@ const dialogElement = document.getElementById("dialog-bg");
  * @param {string} title The dialog title
  * @param {string} description The dialog description
  */
-function showDialog(title, description) {
+export function showDialog(title, description) {
     document.getElementById("dialog__heading").innerText = title;
     document.getElementById("dialog__info").innerText = description;
     // show the dialog
