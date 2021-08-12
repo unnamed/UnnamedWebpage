@@ -7,13 +7,9 @@ main {
 }
 
 main h1 {
-    font-family: "Rubik Medium", sans-serif;
-    font-size: 65px;
-    margin: 70px 10px 30px;
+    margin: 0 10px 30px;
 }
 
 main p {
-    font-family: "Rubik Light", sans-serif;
-    font-size: 25px;
     margin: 30px 10px 50px;
 }

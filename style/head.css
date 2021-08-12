@@ -7,31 +7,34 @@
     --light-fg: #DDDDDD;
     --light-bg: #FF8DF5;
     --dark-bg: #181D1F;
+
+    --header-height: 150px;
+}
+
+#root {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 body {
     background-image: linear-gradient(135deg, #2f202f 0%, #1b142e 100%);
     background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 .page-section {
-    min-height: 100vh;
-    padding: 70px 13%;
+    min-height: calc(100vh - var(--header-height));
+    padding: 50px 13%;
 }
 
 .page-section > h2, .page-section > p {
     color: var(--light-fg);
 }
 
-.page-section > h2 {
-    font-family: "Rubik Medium", sans-serif;
-    font-size: 64px;
-    margin: 10px 0;
-}
-
 .page-section > p {
-    font-family: "Rubik Light", sans-serif;
-    font-size: var(--def-size);
     margin: 20px 0;
 }
 
@@ -63,9 +66,49 @@ body {
 
 .secondary-button {
     color: var(--light-fg);
-    background-color: #1d161F;
+    background-color: rgba(0, 0, 0, .15);
 }
 
 .secondary-button:hover {
     background-color: #261e28;
+}
+
+/* Texts */
+.title {
+    font-family: 'Rubik Medium', Ubuntu, Roboto, sans-serif;
+    font-size: 65px;
+}
+
+.descriptor {
+    font-family: 'Rubik Light', Ubuntu, Roboto, sans-serif;
+    font-size: 25px;
+}
+
+.small-descriptor {
+    font-family: 'Rubik', Ubuntu, Roboto, sans-serif;
+    font-size: 18px;
+}
+
+@media (max-width: 600px) {
+    .title {
+        font-size: 36px;
+    }
+
+    .descriptor {
+        font-size: 18px;
+    }
+
+    .small-descriptor {
+        font-size: 16px;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 0 3px;
+    }
+
+    .page-section {
+        padding: 5px 13%;
+    }
 }

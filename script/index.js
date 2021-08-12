@@ -1,14 +1,16 @@
 (function() {
 
     // anchors setup
+    const root = document.getElementById("root");
+    const header = document.getElementsByTagName("header").item(0);
+
     for (const anchor of document.getElementsByClassName("anchor")) {
         const targetId = anchor.dataset["anchorfor"];
         if (targetId) {
             const target = document.getElementById(targetId);
             if (target) {
                 anchor.addEventListener("click", () => {
-                    const top = target.getBoundingClientRect().top + window.scrollY;
-                    window.scroll({ top, behavior: "smooth" });
+                    root.scroll({ top: (target.offsetTop - header.getBoundingClientRect().height), behavior: "smooth" });
                 });
             }
         }
@@ -16,6 +18,7 @@
 
     // some used elements
     const teamContainer = document.getElementById("team__container");
+    const starsElement = document.getElementById("stars");
 
     // name of the organization in GitHub
     const organization = "unnamed";
@@ -57,8 +60,11 @@
                     element.appendChild(infoElement);
                     teamContainer.appendChild(element);
                 });
-        }))
-        .then(promises => Promise.all(promises))
-        .then();
+        }));
+
+    fetch(`https://api.github.com/orgs/${organization}/repos`)
+        .then(response => response.json())
+        .then(repositories => repositories.filter(repo => !repo.fork).reduce((count, repo) => count + repo.stargazers_count, 0))
+        .then(stars => starsElement.innerText = stars.toString());
 
 })();

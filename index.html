@@ -19,56 +19,60 @@
 </head>
 <body>
 
-<main class="page-section" id="home">
-    <header>
-        <div class="header__part">
-            <img id="header__logo" src="assets/logo.svg" alt="logo">
-        </div>
-        <div class="header__part">
-            <span class="anchor" data-anchorfor="home">Home</span>
-            <span class="anchor" data-anchorfor="team">Team</span>
-            <span class="anchor" data-anchorfor="contact">Contact</span>
-        </div>
-        <div class="header__part">
-        </div>
-    </header>
-
-    <div>
-        <h1>Everything is<br>possible</h1>
-        <p>And we will show you</p>
+<header>
+    <div class="header__part header__part-fit-content">
+        <img id="header__logo" src="assets/logo.svg" alt="logo">
     </div>
-    <div>
-        <button class="button main-button">Show me</button>
-        <button class="button secondary-button">Reviews</button>
+    <div class="header__part">
+        <span class="anchor" data-anchorfor="home">Home</span>
+        <span class="anchor" data-anchorfor="team">Team</span>
+        <span class="anchor" data-anchorfor="about">About</span>
     </div>
-</main>
+    <div class="header__part header__empty-part header__part-fit-content">
+    </div>
+</header>
 
-<div class="team page-section" id="team">
-    <h2>Meet our team</h2>
-    <p>The people behind the Unnamed Team who make this work</p>
-    <div id="team__container">
-        <!--
-            Teams element:
-            <div class="team__member">
-                <img src="link/to/avatar">
-                <div>
-                    <h4>GitHub Name</h4>
-                    <h5>GitHub Login</h5>
-                    <p>Bio</p>
+<div id="root">
+    <main class="page-section" id="home">
+        <div>
+            <h1 class="title">Everything is<br>possible</h1>
+            <p class="descriptor">And we will show you</p>
+        </div>
+        <div>
+            <button class="button main-button">Show me</button>
+            <button class="button secondary-button">Reviews</button>
+        </div>
+    </main>
+    <div class="team page-section" id="team">
+        <h2 class="title">Meet our team</h2>
+        <p class="descriptor">The people behind the Unnamed Team who make this work</p>
+        <div id="team__container">
+            <!--
+                Teams element:
+                <div class="team__member">
+                    <img src="link/to/avatar">
+                    <div>
+                        <h4>GitHub Name</h4>
+                        <h5>GitHub Login</h5>
+                        <p>Bio</p>
+                    </div>
                 </div>
-            </div>
-        -->
+            -->
+        </div>
     </div>
 
-</div>
+    <div class="page-section" id="about">
+        <h2 class="title">About Us</h2>
+        <p class="descriptor">This is Unnamed Team, a software development team. We make open source and private commissions</p>
+        <p class="descriptor">With currently <b id="stars">0</b> stars in GitHub</p>
 
-<div class="page-section" id="contact">
-    <h2>Contact us</h2>
-    <p>You can join our Discord server or send us an email to contact@unnamed.team</p>
-    <div>
-        <!-- Sorry for the JavaScript here -->
-        <button class="button main-button" onclick="open('https://discord.gg/xbba2fy');">Join Discord</button>
-        <button class="button secondary-button" onclick="open('mailto:contact@unnamed.team');">Mail</button>
+        <h2 class="title">Contact</h2>
+        <p class="descriptor">You can join our Discord server or email us to contact@unnamed.team</p>
+        <div>
+            <!-- Sorry for the JavaScript here -->
+            <button class="button main-button" onclick="window.open('https://discord.gg/xbba2fy');">Join Discord</button>
+            <button class="button secondary-button" onclick="window.open('mailto:contact@unnamed.team');">Mail</button>
+        </div>
     </div>
 </div>
 

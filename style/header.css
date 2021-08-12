@@ -2,6 +2,12 @@
     width: 65px;
 }
 
+@media (max-width: 600px) {
+    #header__logo {
+        width: 40px;
+    }
+}
+
 header span {
     font-family: 'Rubik Light', sans-serif;
     font-size: var(--def-size);
@@ -18,14 +24,19 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 0 30px;
+    padding: 0 13%;
+    height: var(--header-height);
 }
 
 .header__part {
     display: inline-flex;
     height: 100%;
-    width: 30%;
+    flex-grow: 100;
 
     align-items: center;
     justify-content: space-between;
+}
+
+.header__part-fit-content {
+    width: auto;
 }
