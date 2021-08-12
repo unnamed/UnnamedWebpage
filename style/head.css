@@ -16,4 +16,56 @@ body {
 
 .page-section {
     min-height: 100vh;
+    padding: 70px 13%;
+}
+
+.page-section > h2, .page-section > p {
+    color: var(--light-fg);
+}
+
+.page-section > h2 {
+    font-family: "Rubik Medium", sans-serif;
+    font-size: 64px;
+    margin: 10px 0;
+}
+
+.page-section > p {
+    font-family: "Rubik Light", sans-serif;
+    font-size: var(--def-size);
+    margin: 20px 0;
+}
+
+/* Buttons */
+.button {
+    padding: 15px 35px;
+    font-family: "Rubik", sans-serif;
+    font-size: var(--def-size);
+    border-radius: 15px;
+    border: none;
+    filter: drop-shadow(5px 5px 5px rgba(21, 21, 21, 0.37));
+    margin: 0 10px;
+    cursor: pointer;
+    transition-duration: .5s;
+}
+
+.button:hover {
+    transform: scale(1.02);
+}
+
+.main-button {
+    color: #222222;
+    background-color: var(--light-bg);
+}
+
+.main-button:hover {
+    background-color: #f8a2ef;
+}
+
+.secondary-button {
+    color: var(--light-fg);
+    background-color: #1d161F;
+}
+
+.secondary-button:hover {
+    background-color: #261e28;
 }

@@ -1,5 +1,19 @@
 (function() {
 
+    // anchors setup
+    for (const anchor of document.getElementsByClassName("anchor")) {
+        const targetId = anchor.dataset["anchorfor"];
+        if (targetId) {
+            const target = document.getElementById(targetId);
+            if (target) {
+                anchor.addEventListener("click", () => {
+                    const top = target.getBoundingClientRect().top + window.scrollY;
+                    window.scroll({ top, behavior: "smooth" });
+                });
+            }
+        }
+    }
+
     // some used elements
     const teamContainer = document.getElementById("team__container");
 

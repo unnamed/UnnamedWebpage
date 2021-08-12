@@ -2,18 +2,23 @@
     width: 65px;
 }
 
-header a {
+header span {
     font-family: 'Rubik Light', sans-serif;
-    text-decoration: none;
     font-size: var(--def-size);
     color: var(--light-fg);
+    cursor: pointer;
+    transition-duration: .5s;
+}
+
+header span:hover {
+    transform: scale(1.08);
 }
 
 header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 70px 0;
+    padding: 0 0 30px;
 }
 
 .header__part {

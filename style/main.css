@@ -17,24 +17,3 @@ main p {
     font-size: 25px;
     margin: 30px 10px 50px;
 }
-
-/* buttons */
-main button {
-    padding: 15px 35px;
-    font-family: "Rubik", sans-serif;
-    font-size: var(--def-size);
-    border-radius: 15px;
-    border: none;
-    filter: drop-shadow(5px 5px 5px rgba(21, 21, 21, 0.37));
-    margin: 0 10px;
-}
-
-.main-button {
-    color: #222222;
-    background-color: var(--light-bg);
-}
-
-.secondary-button {
-    color: var(--light-fg);
-    background-color: #1d161F;
-}
