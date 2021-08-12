@@ -1,0 +1,26 @@
+#header__logo {
+    width: 65px;
+}
+
+header a {
+    font-family: 'Rubik Light', sans-serif;
+    text-decoration: none;
+    font-size: var(--def-size);
+    color: var(--light-fg);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 70px 10%;
+}
+
+.header__part {
+    display: inline-flex;
+    height: 100%;
+    width: 30%;
+
+    align-items: center;
+    justify-content: space-between;
+}
