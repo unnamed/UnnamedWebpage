@@ -1,0 +1,49 @@
+(function() {
+
+    // some used elements
+    const teamContainer = document.getElementById("team__container");
+
+    // name of the organization in GitHub
+    const organization = "unnamed";
+
+    // fetch team members
+    fetch(`https://api.github.com/orgs/${organization}/public_members`)
+        .then(response => response.json())
+        .then(members => members.map(({ url }) => {
+            return fetch(url)
+                .then(response => response.json())
+                .then(member => {
+                    let { name, login, bio, avatar_url, html_url } = member;
+                    bio = bio.replace(/\r?\n/g, ''); // remove line breaks
+
+                    // dom modifications, sorry for doing this haha
+                    const element = document.createElement("div");
+                    const avatar = document.createElement("img");
+                    const infoElement = document.createElement("div");
+                    const nameElement = document.createElement("h4");
+                    const loginElement = document.createElement("h5");
+                    const bioElement = document.createElement("p");
+
+                    element.classList.add("team__member");
+                    element.addEventListener("click", () => {
+                        window.open(html_url);
+                    });
+
+                    avatar.src = avatar_url;
+                    nameElement.innerText = name;
+                    loginElement.innerText = login;
+                    bioElement.innerText = bio;
+
+                    // append
+                    infoElement.appendChild(nameElement);
+                    infoElement.appendChild(loginElement);
+                    infoElement.appendChild(bioElement);
+                    element.appendChild(avatar);
+                    element.appendChild(infoElement);
+                    teamContainer.appendChild(element);
+                });
+        }))
+        .then(promises => Promise.all(promises))
+        .then();
+
+})();
