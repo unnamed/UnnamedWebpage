@@ -29,6 +29,7 @@
                 .then(member => {
                     let { name, login, bio, avatar_url, html_url } = member;
                     bio = bio ? bio.replace(/\r?\n/g, '') : "";
+                    name = name.length === 0 ? login : name;
 
                     // dom modifications, sorry for doing this haha
                     const element = document.createElement("div");
