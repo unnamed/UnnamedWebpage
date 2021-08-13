@@ -35,6 +35,10 @@
     margin: 5px 8px 8px;
 }
 
+.team__member p {
+    font-size: 16px;
+}
+
 .team__member h5 {
     font-size: 15px;
 }
@@ -44,4 +48,34 @@
     border-radius: 50%;
     margin: 10px 20px 10px;
     height: 100px;
+}
+
+@media (max-width: 1500px) {
+    .team__member {
+        width: 45%;
+    }
+
+    .team__member img {
+        height: 90px;
+        margin: 5px 10px 5px;
+    }
+
+    .team__member p {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 900px) {
+    .team__member {
+        width: 100%;
+    }
+
+    .team__member img {
+        height: 80px;
+        margin: 5px 10px 5px;
+    }
+
+    .team__member p {
+        font-size: 14px;
+    }
 }
