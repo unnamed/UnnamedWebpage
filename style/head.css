@@ -50,14 +50,10 @@ body {
 
 .page-section {
     min-height: calc(100vh - var(--header-height));
-    padding: 50px 13%;
+    padding: 70px 13%;
 }
 
-.page-section > h2, .page-section > p {
-    color: var(--light-fg);
-}
-
-.page-section > p {
+.page-section p {
     margin: 20px 0;
 }
 
@@ -97,6 +93,10 @@ body {
 }
 
 /* Texts */
+.light {
+    color: var(--light-fg);
+}
+
 .title {
     font-family: 'Rubik Medium', Ubuntu, Roboto, sans-serif;
     font-size: 65px;
@@ -132,6 +132,6 @@ body {
     }
 
     .page-section {
-        padding: 5px 13%;
+        padding: 50px 13%;
     }
 }
