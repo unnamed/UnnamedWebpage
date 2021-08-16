@@ -42,7 +42,10 @@
                     const loginElement = document.createElement("h5");
                     const bioElement = document.createElement("p");
 
+                    element.classList.add("ghost");
+                    element.classList.add("card");
                     element.classList.add("team__member");
+
                     element.addEventListener("click", () => {
                         window.open(html_url);
                     });

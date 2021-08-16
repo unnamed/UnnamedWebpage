@@ -1,37 +1,17 @@
 #team__container {
-    display: flex;
     width: 100%;
-    flex-wrap: wrap;
     color: var(--light-fg);
-
-    margin: 0 -15px;
 }
 
 .team__member {
-    display: flex;
-    border-radius: 20px;
-    filter: drop-shadow(5px 5px 5px rgba(21, 21, 21, 0.37));
-    background-color: #1d161F;
     width: 30%;
-    padding: 20px;
-    margin: 15px;
-
-    transition-duration: .5s;
-    cursor: pointer;
-}
-
-.team__member:hover {
-    transform: scale(1.03);
 }
 
 .team__member h4 {
-    font-family: 'Rubik Medium', sans-serif;
-    font-size: var(--def-size);
     margin: 8px 8px 0;
 }
 
 .team__member h5, .team__member p {
-    font-family: 'Rubik Light', sans-serif;
     margin: 5px 8px 8px;
 }
 

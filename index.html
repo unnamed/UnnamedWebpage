@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="style/team.css">
     <link rel="stylesheet" href="style/about.css">
+
+    <link rel="stylesheet" href="style/index.css">
 </head>
 <body>
 
@@ -33,21 +35,21 @@
     </div>
 </header>
 
-<div id="root">
+<div class="scroll" id="root">
     <main class="page-section" id="home">
         <div>
-            <h1 class="title">Everything is<br>possible</h1>
-            <p class="descriptor">And we will show you</p>
+            <h1 class="light">Everything is<br>possible</h1>
+            <h3 class="light">And we will show you</h3>
         </div>
         <div>
-            <button class="button main-button" onclick="window.open('https://github.com/unnamed');">Show me</button>
-            <button class="button secondary-button" onclick="window.open('https://discord.gg/xbba2fy')">Reviews</button>
+            <button class="dark solid solid_hover button" onclick="window.open('https://github.com/unnamed');">Show me</button>
+            <button class="light ghost ghost_hover button" onclick="window.open('https://discord.gg/xbba2fy')">Reviews</button>
         </div>
     </main>
     <div class="team page-section" id="team">
-        <h2 class="light title">Meet our team</h2>
-        <p class="light descriptor">The people behind the Unnamed Team who make this work</p>
-        <div id="team__container">
+        <h2 class="light">Meet our team</h2>
+        <h3 class="light">The people behind the Unnamed Team who make this work</h3>
+        <div class="card_container" id="team__container">
             <!--
                 Teams element:
                 <div class="team__member">
@@ -63,19 +65,24 @@
     </div>
 
     <div class="page-section" id="about">
-        <div>
-            <h2 class="light title">About Us</h2>
-            <p class="light descriptor">This is Unnamed Team, a software development team. We make open source and private commissions</p>
-            <p class="light descriptor">With currently <b id="stars">0</b> stars in GitHub</p>
+
+        <h2 class="light">About Us</h2>
+        <h3 class="light">This is Unnamed Team, a software development team. We make open source and private commissions</h3>
+
+        <div class="card__container">
+            <div class="ghost card">
+                <p class="light descriptor">With currently <b id="stars">0</b> stars in GitHub</p>
+            </div>
         </div>
+
         <div>
-            <h2 class="light title">Contact</h2>
-            <p class="light descriptor">You can join our Discord server or email us to contact@unnamed.team</p>
+            <h2 class="light">Contact</h2>
+            <h3 class="light">You can join our Discord server or email us to contact@unnamed.team</h3>
 
             <div>
                 <!-- Sorry for the JavaScript here -->
-                <button class="button main-button" onclick="window.open('https://discord.gg/xbba2fy');">Join Discord</button>
-                <button class="button secondary-button" onclick="window.open('mailto:contact@unnamed.team');">Mail</button>
+                <button class="dark solid solid_hover button" onclick="window.open('https://discord.gg/xbba2fy');">Join Discord</button>
+                <button class="light ghost ghost_hover button" onclick="window.open('mailto:contact@unnamed.team');">Mail</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,145 @@
+/* Buttons */
+.button {
+    padding: 15px 35px;
+    font-family: "Rubik", sans-serif;
+    font-size: var(--def-size);
+    border-radius: 15px;
+    border: none;
+    filter: drop-shadow(5px 5px 5px rgba(21, 21, 21, 0.37));
+    margin: 0 10px;
+    cursor: pointer;
+    transition-duration: .5s;
+}
+
+.button:hover {
+    transform: scale(1.02);
+}
+
+/* Custom scrollbar styles */
+.scroll {
+    /* For Firefox (Thanks Mozilla) */
+    scrollbar-color: #FF8DF5BB #FFFFFF00;
+}
+
+/* For Chrome, Edge, and Safari */
+.scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: none;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #FF8DF5BB;
+    border-radius: 8px;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+    background-color: #FF8DF588;
+}
+
+/* Text colors */
+.light {
+    color: var(--light-fg);
+}
+
+.dark {
+    color: #222222;
+}
+
+/* Text sizes */
+h1, h2 {
+    font-family: 'Rubik Medium', Ubuntu, Roboto, sans-serif;
+    font-size: 65px;
+}
+
+h3 {
+    font-family: 'Rubik Light', Ubuntu, Roboto, sans-serif;
+    font-weight: lighter;
+    font-size: 25px;
+}
+
+h4 {
+    font-family: 'Rubik Medium', sans-serif;
+    font-size: var(--def-size);
+}
+
+h5, p {
+    font-family: 'Rubik', Ubuntu, Roboto, sans-serif;
+    font-weight: lighter;
+    font-size: 17px;
+}
+
+/* Common backgrounds and hover changes */
+/* Transparent background */
+.ghost {
+    background-color: rgba(0, 0, 0, .2);
+    backdrop-filter: blur(5px);
+}
+
+.ghost_hover:hover {
+    background-color: rgba(255, 255, 255, .02);
+}
+
+/* Solid background */
+.solid {
+    background-color: var(--light-bg);
+}
+
+.solid_hover:hover {
+    background-color: #f8a2ef;
+}
+
+/* Cards styles */
+.card_container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+    /* Remove cards margin from sides */
+    margin: 0 -15px;
+}
+
+/* Commonly mixed with 'ghost' */
+.card {
+    display: flex;
+
+    border-radius: 20px;
+    filter: drop-shadow(5px 5px 5px rgba(21, 21, 21, .37));
+
+    transition-duration: .5s;
+    cursor: pointer;
+
+    padding: 20px;
+    margin: 15px;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+/* Adaptive styles */
+@media (max-width: 900px) {
+    h1, h2 {
+        font-size: 36px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 0 3px;
+    }
+
+    .page-section {
+        padding: 50px 13%;
+    }
+}
