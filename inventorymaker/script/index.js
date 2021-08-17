@@ -2,16 +2,39 @@
 
     const $ = selectors => document.querySelector(selectors);
 
-    //#region Color Library
+    //#region Text Formatting Library
     /**
      * Colorizes the given input
      * @param {string} input The string input
      * @return {string} The HTML output
      */
-    const colorize = (function() {
+    const format = (function() {
+
+        const examples = {
+            player_name: ['Yusshu', 'AllanGame', 'MomlessTomato'],
+            count: ['0', '10', '20', '30']
+        };
+        let exampleTick = 0;
+
+        // task to update placeholders by some examples
+        setInterval(() => {
+            for (const placeholderElement of document.getElementsByClassName("placeholder")) {
+                const placeholder = placeholderElement.dataset["placeholder"];
+                const values = examples[placeholder];
+                if (values) {
+                    placeholderElement.innerText
+                        = values[exampleTick % values.length];
+                }
+            }
+
+            exampleTick++;
+        }, 2000);
 
         // color char constant
         const COLOR_CHAR = '&';
+        const PLACEHOLDER_VALID_CHARS = 'AaBbCcDdEeFfGgHhIiJjKkMmNnLlOoPpQqRrSsTtUuVvWwXxYyZz-_,;!0123456789';
+        const PLACEHOLDER_OPEN = '%';
+        const PLACEHOLDER_CLOSE = '%';
 
         // special codes
         const STRIKETHROUGH = 'm';
@@ -51,6 +74,42 @@
                 const current = input.charAt(i);
 
                 if (current !== COLOR_CHAR) {
+
+                    // check if placeholder
+                    if (current === PLACEHOLDER_OPEN) {
+                        let placeholder = [];
+                        let replaced = false;
+
+                        // start checking for next characters
+                        while (++i < input.length) {
+                            const char = input.charAt(i);
+
+                            // close character found, stop
+                            if (char === PLACEHOLDER_CLOSE) {
+                                // push the tag open, it's immediately closed
+                                const placeholderStr = placeholder.join('');
+                                output.push(`<span class="placeholder" data-placeholder="${placeholderStr}">`
+                                    + `${PLACEHOLDER_OPEN}${placeholderStr}${PLACEHOLDER_CLOSE}</span>`);
+                                replaced = true;
+                                break;
+                            } else if (!PLACEHOLDER_VALID_CHARS.includes(char)) {
+                                i--; // so next iteration processes this char
+                                // push raw
+                                output.push(PLACEHOLDER_OPEN);
+                                output.push(placeholder.join(''));
+                                replaced = true;
+                                break;
+                            }
+                            placeholder.push(char);
+                        }
+
+                        if (!replaced) {
+                            output.push(PLACEHOLDER_OPEN);
+                            output.push(placeholder.join(''));
+                        }
+                        continue;
+                    }
+
                     // not a color char, just push it
                     output.push(current);
                     continue;
@@ -237,11 +296,11 @@
 
         // update 'output' when 'input' changes
         input.addEventListener("input", event => {
-            output.innerHTML = colorize(event.target.value);
+            output.innerHTML = format(event.target.value);
         });
 
         // initial update
-        output.innerHTML = colorize(input.value);
+        output.innerHTML = format(input.value);
     }
     //#endregion
 
@@ -360,8 +419,8 @@
                 parent.appendChild(this.container);
             },
             setItem(item) {
-                this.nameElement.innerHTML = colorize(item.displayName);
-                this.loreElement.innerHTML = colorize(item.lore.join('<br>'));
+                this.nameElement.innerHTML = format(item.displayName);
+                this.loreElement.innerHTML = format(item.lore.join('<br>'));
             }
         };
     })();
@@ -381,7 +440,7 @@
 
         // update title
         titleInput.value = data.title;
-        titleOutput.innerHTML = colorize(data.title);
+        titleOutput.innerHTML = format(data.title);
 
         const newBody = document.createElement("tbody");
 
@@ -565,7 +624,7 @@
     });
     displayNameElement.addEventListener("input", event => {
         if (itemTooltip.location === itemTooltip.pinLocation) {
-            itemTooltip.nameElement.innerHTML = colorize(event.target.value);
+            itemTooltip.nameElement.innerHTML = format(event.target.value);
         }
         if (itemTooltip.pinLocation) {
             const [ row, slot ] = itemTooltip.pinLocation;
@@ -575,7 +634,7 @@
     });
     loreElement.addEventListener("input", event => {
         if (itemTooltip.location === itemTooltip.pinLocation) {
-            itemTooltip.loreElement.innerHTML = colorize(event.target.value.replace(/\r?\n/g, '<br>'));
+            itemTooltip.loreElement.innerHTML = format(event.target.value.replace(/\r?\n/g, '<br>'));
         }
         if (itemTooltip.pinLocation) {
             const [ row, slot ] = itemTooltip.pinLocation;
