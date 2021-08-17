@@ -183,7 +183,9 @@
                         return;
                     }
 
-                    loadItems(newData.metadata.minecraftVersion)
+                    (data.metadata.minecraftVersion === newData.metadata.minecraftVersion
+                            ? Promise.resolve()
+                            : loadItems(newData.metadata.minecraftVersion))
                         .then(() => {
                             data = newData;
                             draw();
