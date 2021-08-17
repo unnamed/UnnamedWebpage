@@ -198,7 +198,7 @@
         const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`;
         const downloadElement = document.createElement("a");
         downloadElement.setAttribute("href", dataStr);
-        downloadElement.setAttribute("download", "menu.mcinv");
+        downloadElement.setAttribute("download", "menu.mcmenu");
         document.body.appendChild(downloadElement);
         downloadElement.click();
         downloadElement.remove();
@@ -323,15 +323,16 @@
     })
 
     function src(type, meta) {
-        return `https://github.com/unnamed/webpage/raw/master/inventorymaker/data/items/${type}-${meta}.png`;
+        return `https://github.com/unnamed/webpage/raw/master/inventorymaker/assets/1.8/${type}-${meta}.png`;
     }
 
     (async () => {
         // item list fetch
-        const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/data/items.json');
+        const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/1.8/list.json');
         (await response.json()).forEach(item => {
 
             if (itemListElement.children.length >= 10) {
+                // TODO: Temporal 10 items limit so explorers don't hard-crash
                 return;
             }
 
