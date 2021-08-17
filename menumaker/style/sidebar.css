@@ -10,21 +10,26 @@ nav {
     flex-direction: column;
     justify-content: space-around;
 
-    overflow: hidden;
     margin: 0;
 }
 
 .left-sidebar {
-    display: inline-block;
+    display: flex;
     float: left;
-    overflow-x: hidden;
-    overflow-y: scroll;
+}
+
+#item-list-container {
+    display: flex;
+    min-height: 0;
 }
 
 #item-list {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .item-element {

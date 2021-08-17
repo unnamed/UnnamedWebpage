@@ -23,6 +23,10 @@
     --slot-size: 80px;
 }
 
+body {
+    overflow: hidden;
+}
+
 .text {
     color: var(--color);
     font-family: 'Roboto', 'Ubuntu', sans-serif;
