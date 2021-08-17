@@ -16,6 +16,7 @@ nav {
 .left-sidebar {
     display: flex;
     float: left;
+    justify-content: start;
 }
 
 #item-list-container {
