@@ -361,7 +361,10 @@
             itemElement.addEventListener("dragstart", () => dragging = { type: key });
             itemListElement.appendChild(itemElement);
         });
-    })().catch(e => showDialog(`Error while importing items: ${e.name}`, e.message));
+    })().catch(e => {
+        showDialog(`Error while importing items: ${e.name}`, e.message);
+        console.error(e);
+    });
 
     //#region Item Tooltip
     const itemTooltip = (() => {
