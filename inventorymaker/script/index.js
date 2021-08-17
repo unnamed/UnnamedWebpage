@@ -118,32 +118,34 @@
     })();
     //#endregion
 
-    //#region Alert Library
-    const dialogElement = $("#dialog-bg");
+    const dialog = (function () {
+        const dialogElement = $("#dialog-bg");
 
-    /**
-     * Shows a dialog and sets the given title
-     * and description to it
-     * @param {string} title The dialog title
-     * @param {string} description The dialog description
-     */
-    function showDialog(title, description) {
-        $("#dialog__heading").innerText = title;
-        $("#dialog__info").innerText = description;
-        // show the dialog
-        dialogElement.classList.remove("hidden");
-    }
+        const dialog = {
+            /**
+             * Shows a dialog and sets the given title
+             * and description to it
+             * @param {string} title The dialog title
+             * @param {string} description The dialog description
+             */
+            show(title, description) {
+                $("#dialog__heading").innerText = title;
+                $("#dialog__info").innerText = description;
+                // show the dialog
+                dialogElement.classList.remove("hidden");
+            },
 
-    /**
-     * Closes the dialog (hides it)
-     */
-    function closeDialog() {
-        dialogElement.classList.add("hidden");
-    }
+            /**
+             * Closes the dialog
+             */
+            close() {
+                dialogElement.classList.add("hidden");
+            }
+        };
 
-
-    $("#close-dialog").addEventListener("click", closeDialog);
-    //#endregion
+        $("#close-dialog").addEventListener("click", dialog.close);
+        return dialog;
+    })();
 
     //#region Exporting and Importing Library
     const FORMAT_VERSION = 1;
@@ -164,7 +166,7 @@
                     const newData = JSON.parse(readEvent.target.result.toString());
 
                     if (newData.metadata.formatVersion > FORMAT_VERSION) {
-                        showDialog(
+                        dialog.show(
                             'Invalid file version',
                             'Imported file has a file greater than current'
                             + ` format version (Given: ${newData.metadata.formatVersion},`
@@ -173,7 +175,7 @@
                         return;
                     } else if (newData.metadata.formatVersion < FORMAT_VERSION) {
                         // TODO: Add backwards compatibility
-                        showDialog(
+                        dialog.show(
                             'Invalid file version',
                             'Imported file has a older inventorymaker file format.'
                             + ' Backwards compatibility is not added yet.'
@@ -181,10 +183,18 @@
                         return;
                     }
 
-                    data = newData;
-                    draw();
+                    loadItems(newData.metadata.minecraftVersion)
+                        .then(() => {
+                            data = newData;
+                            draw();
+                        })
+                        .catch(e => {
+                            dialog.show(`Invalid file: ${e.name}, could not load items`, e.message);
+                            console.error(e);
+                        });
                 } catch (e) {
-                    showDialog(`Invalid file: ${e.name}`, e.message);
+                    dialog.show(`Invalid file: ${e.name}`, e.message);
+                    console.error(e);
                 }
             });
         });
@@ -207,8 +217,8 @@
         downloadElement.remove();
     }
 
-    document.getElementById("import").addEventListener("click", importInfo);
-    document.getElementById("export").addEventListener("click", exportInfo);
+    $("#import").addEventListener("click", importInfo);
+    $("#export").addEventListener("click", exportInfo);
     //#endregion
 
     //#region Input linking library
@@ -233,70 +243,17 @@
     }
     //#endregion
 
-    //#region Type definitions
-    /**
-     * Represents a Minecraft Item
-     * @typedef {Object} Item
-     * @property {number | string} type
-     * @property {string} displayName
-     * @property {string[]} lore
-     * @property {string | undefined} bound
-     */
-
-    /**
-     * Represents an inventory row
-     * @typedef {Item[]} Row
-     */
-
-    /**
-     * Represents the inventory metadata,
-     * the data used only for editing the
-     * menu, it can be ignored when reading
-     * the exported file
-     * @typedef {Object} Metadata
-     * @property {number} formatVersion
-     */
-
-    /**
-     * Represents the inventory data
-     * @typedef {Object} Inventory
-     * @property {Metadata} metadata
-     * @property {string} title
-     * @property {Row[]} rows
-     */
-
-    /**
-     * Represents the information of the
-     * item being transferred from a location
-     * to another
-     * @typedef {Object} DragInfo
-     * @property {number[] | undefined} source The drag source
-     * @property {number} type The dragged item type
-     */
-    //#endregion
-
-    /**
-     * The current dragging information
-     * @type {DragInfo | undefined}
-     */
     let dragging = undefined;
 
     //#region Some constants
     const ROW_SIZE = 9;
     const MAX_ROWS = 6;
-    /**
-     * Object containing possible entries
-     */
-    let items = {};
     //#endregion
 
-    /**
-     * Object containing the menu information
-     * @type {Inventory}
-     */
     let data = {
         metadata: {
-            formatVersion: FORMAT_VERSION
+            formatVersion: FORMAT_VERSION,
+            minecraftVersion: '1.8'
         },
         title: "Title",
         rows: [
@@ -304,7 +261,6 @@
         ]
     };
 
-    const itemSearchElement = $("#item-search");
     const itemListElement = $("#item-list");
     const itemTypeElement = $("#item-type");
     const removeItemElement = $("#remove-item");
@@ -316,7 +272,7 @@
 
     let tableBody = $("#table-body");
 
-    itemSearchElement.addEventListener("input", event => {
+    $("#item-search").addEventListener("input", event => {
         const query = event.target.value;
         for (const element of itemListElement.children) {
             if (element.children.item(1).innerHTML.toLowerCase().includes(query)) {
@@ -331,15 +287,21 @@
         return `https://github.com/unnamed/webpage/raw/master/inventorymaker/assets/1.8/${type}-${meta}.png`;
     }
 
-    (async () => {
+    /**
+     *
+     * @param version
+     * @returns {Promise<void>}
+     */
+    async function loadItems(version) {
         // item list fetch
-        const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/1.8/list.json');
-        (await response.json()).forEach(item => {
+        const response = await fetch(`https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/${version}/list.json`);
+        const json = await response.json();
+
+        json.forEach(item => {
 
             const key = (item.type << 4) + item.meta;
-            const keyStr = key.toString();
+            //const keyStr = key.toString();
 
-            items[keyStr] = item;
             const option = document.createElement("option");
             option.value = key;
             option.innerHTML = item.name;
@@ -361,10 +323,14 @@
             itemElement.addEventListener("dragstart", () => dragging = { type: key });
             itemListElement.appendChild(itemElement);
         });
-    })().catch(e => {
-        showDialog(`Error while importing items: ${e.name}`, e.message);
-        console.error(e);
-    });
+    }
+
+    // initial load
+    loadItems(data.metadata.minecraftVersion)
+        .catch(e => {
+            dialog.show(`Error while importing items: ${e.name}`, e.message);
+            console.error(e);
+        });
 
     //#region Item Tooltip
     const itemTooltip = (() => {
@@ -515,7 +481,7 @@
      * item in the selected slot
      * @param {number} row The row (0-MAX_ROWS)
      * @param {number} slot The row slot (0-ROW_SIZE)
-     * @param {Item|undefined} item The current item in this slot
+     * @param {Object|undefined} item The current item in this slot
      */
     function setSelection(row, slot, item) {
 
@@ -567,7 +533,7 @@
      */
     function addRow() {
         if (data.rows.length >= MAX_ROWS) {
-            showDialog(
+            dialog.show(
                 "Cannot add more rows",
                 `The rows limit is ${MAX_ROWS}`
             );
