@@ -16,8 +16,8 @@ main > h3 {
 /* Inventory table */
 #workspace {
     display: block;
-    width: 70%;
-    margin: 1vw auto;
+    width: 80%;
+    margin: .5vh auto;
 }
 
 #workspace table {
