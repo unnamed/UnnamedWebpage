@@ -375,12 +375,8 @@
             const img = document.createElement("img");
             img.setAttribute("data-src", src(item.type, item.meta));
             img.classList.add("lazyload");
-            const label = document.createElement("p");
-            label.classList.add("text");
-            label.innerHTML = item.name;
 
             itemElement.appendChild(img);
-            itemElement.appendChild(label);
             itemElement.setAttribute("draggable", "true");
 
             itemElement.addEventListener("dragstart", () => dragging = { type: key });
