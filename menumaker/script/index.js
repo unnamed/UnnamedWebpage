@@ -513,7 +513,7 @@
                         itemTooltip.setItem(item);
                     });
                     img.addEventListener("mouseleave", () => {
-                        if (!itemTooltip.pinLocation || itemTooltip.location[0] !== row || itemTooltip.location[1] !== slot) {
+                        if (itemTooltip.location[0] === row || itemTooltip.location[1] === slot) {
                             itemTooltip.hide();
                             if (itemTooltip.location !== undefined && itemTooltip.pinLocation !== undefined) {
                                 const [row, slot] = itemTooltip.pinLocation;
