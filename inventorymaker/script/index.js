@@ -333,11 +333,6 @@
         const response = await fetch('https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/1.8/list.json');
         (await response.json()).forEach(item => {
 
-            if (itemListElement.children.length >= 10) {
-                // TODO: Temporal 10 items limit so explorers don't hard-crash
-                return;
-            }
-
             const key = (item.type << 4) + item.meta;
             const keyStr = key.toString();
 
@@ -350,8 +345,8 @@
             const itemElement = document.createElement("div");
             itemElement.classList.add("item-element");
             const img = document.createElement("img");
-            img.setAttribute("loading", "lazy");
-            img.src = src(item.type, item.meta);
+            img.setAttribute("data-src", src(item.type, item.meta));
+            img.classList.add("lazyload");
             const label = document.createElement("p");
             label.classList.add("text");
             label.innerHTML = item.name;
