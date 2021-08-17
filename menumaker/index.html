@@ -63,7 +63,7 @@
 
 <!-- Left sidebar -->
 <nav class="left-sidebar">
-    <div class="sidebar-input">
+    <div class="input">
         <input class="text" type="text" id="item-search" placeholder="Search items...">
     </div>
     <div id="item-list-container">
@@ -90,8 +90,8 @@
 <!-- Right sidebar -->
 <nav class="right-sidebar">
 
-    <div class="sidebar-input">
-        <label class="text" for="title">Inventory Title</label>
+    <div class="input">
+        <label class="text" for="title">Title</label>
         <input
                 class="text live-input"
                 type="text"
@@ -100,34 +100,30 @@
                 data-bound="title-display">
     </div>
 
-    <div class="sidebar-input">
+    <div class="input">
         <label class="text" for="item-type">Type</label>
         <select class="text" name="item-type" id="item-type" disabled>
         </select>
     </div>
 
-    <div class="sidebar-input">
+    <div class="input">
         <label class="text" for="display-name">Display Name</label>
         <input class="text" type="text" id="display-name" disabled>
     </div>
 
-    <div class="sidebar-input">
+    <div class="input">
         <label class="text" for="binding">Binding</label>
         <input class="text" type="text" id="binding" disabled>
     </div>
 
-    <div class="sidebar-input">
+    <div class="input">
         <label class="text" for="custom-model-data">Custom Model Data</label>
         <input class="text" type="number" id="custom-model-data" disabled>
     </div>
 
-    <div class="sidebar-input" id="lore-input">
+    <div class="input" id="lore-input">
         <label class="text" for="lore">Lore</label>
         <textarea class="text" name="lore" id="lore" disabled></textarea>
-    </div>
-
-    <div class="sidebar-input horizontal-control-container">
-        <button class="text" id="remove-item" disabled>Remove</button>
     </div>
 </nav>
 

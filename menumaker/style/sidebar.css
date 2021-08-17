@@ -53,23 +53,22 @@ nav {
     padding: 25px;
 }
 
-.sidebar-input select:enabled:hover {
+.input label {
+    font-size: 12px;
+}
+
+.input select:enabled:hover {
     background-color: var(--color);
 }
 
-.sidebar-input input, .sidebar-input textarea, .sidebar-input select {
+.input input, .input textarea, .input select {
     border: 1px solid var(--color);
-    margin: 8px 0 12px;
+    margin: 0 0 12px;
     font-size: 16px;
     background: none;
     width: 100%;
     padding: 8px;
     outline: none;
-}
-
-.horizontal-control-container {
-    display: flex;
-    justify-content: space-around;
 }
 
 #lore {
