@@ -1,3 +1,7 @@
+body {
+    overflow: hidden;
+}
+
 /* Workspace */
 main {
     display: inline-block;
@@ -6,6 +10,7 @@ main {
     width: calc(100% - (2 * var(--sidebar-width)));
     height: calc(100vh - var(--header-height));
     padding: 16px;
+    overflow: hidden;
 }
 
 main > h3 {
@@ -100,6 +105,7 @@ main > h3 {
 #item-tooltip {
     z-index: 100;
     position: absolute;
+    white-space: nowrap;
     padding: 0 8px;
     background-color: #000;
     border: .25vw solid #2a0d74;
@@ -107,7 +113,7 @@ main > h3 {
 }
 
 #item-tooltip p {
-    font-family: 'minecraftia-regular', sans-serif;
-    font-weight: 100;
+    color: var(--color);
+    font-size: 1.4vw;
     margin: .35vw 0;
 }
