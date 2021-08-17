@@ -614,6 +614,10 @@
             const item = getItem(row, slot);
             item.lore = event.target.value.split(/\r?\n/g)
         }
-    })
+    });
+
+    window.addEventListener("beforeunload", event => {
+        return event.returnValue = "Are you sure you want to leave the page? Some changes may not be saved";
+    });
 
 })();
