@@ -286,7 +286,7 @@
     })
 
     function src(type, meta) {
-        return `https://github.com/unnamed/webpage/raw/master/inventorymaker/assets/1.8/${type}-${meta}.png`;
+        return `https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/1.8/${type}-${meta}.png`;
     }
 
     /**
