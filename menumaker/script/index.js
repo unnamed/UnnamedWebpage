@@ -345,7 +345,7 @@
     })
 
     function src(type, meta) {
-        return `https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/1.8/${type}-${meta}.png`;
+        return `https://raw.githubusercontent.com/unnamed/webpage/master/menumaker/assets/1.8/${type}-${meta}.png`;
     }
 
     /**
@@ -357,7 +357,7 @@
      */
     async function loadItems(version) {
         // item list fetch
-        const response = await fetch(`https://raw.githubusercontent.com/unnamed/webpage/master/inventorymaker/assets/${version}/list.json`);
+        const response = await fetch(`https://raw.githubusercontent.com/unnamed/webpage/master/menumaker/assets/${version}/list.json`);
         const json = await response.json();
 
         json.forEach(item => {
