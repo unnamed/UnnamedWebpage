@@ -290,8 +290,10 @@
     }
 
     /**
-     *
-     * @param version
+     * Loads the minecraft items specified
+     * by the given version, returns a void
+     * promise
+     * @param version The minecraft version
      * @returns {Promise<void>}
      */
     async function loadItems(version) {
