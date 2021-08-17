@@ -553,7 +553,6 @@
     function setSelection(row, slot, item) {
 
         itemTypeElement.disabled = false;
-        removeItemElement.disabled = false;
         displayNameElement.disabled = false;
         bindingElement.disabled = false;
         loreElement.disabled = false;
@@ -614,7 +613,6 @@
 
     $("#add-row").addEventListener("click", addRow);
 
-    removeItemElement.addEventListener("click", removeSelection);
     titleInput.addEventListener("input", event => data.title = event.target.value);
 
     itemTypeElement.addEventListener("change", event => {

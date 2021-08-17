@@ -24,7 +24,7 @@ main > h3 {
 
     width: 100%;
     background-color: #cccccc;
-    padding: 0 .8vw .8vw;
+    padding: 0 .9em .9em;
 
     border-spacing: 0;
 
@@ -33,11 +33,11 @@ main > h3 {
     border-right: .35vw solid #555555;
 }
 
-#workspace #inventory-outliner {
+.inventory-outliner {
     border: .35vw solid #000;
 }
 
-#workspace #title-display {
+#workspace .title {
 
     width: 100%;
 
