@@ -108,8 +108,9 @@ main > h3 {
     white-space: nowrap;
     padding: 0 8px;
     background-color: #000;
-    border: .25vw solid #2a0d74;
-    outline: .25vw solid #000;
+    border: .15vw solid #2a0d74;
+    border-radius: 3px;
+    outline: .15vw solid #000;
 }
 
 #item-tooltip p {
