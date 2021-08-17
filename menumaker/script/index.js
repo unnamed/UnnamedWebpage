@@ -513,14 +513,16 @@
                         itemTooltip.setItem(item);
                     });
                     img.addEventListener("mouseleave", () => {
-                        if (itemTooltip.location[0] === row || itemTooltip.location[1] === slot) {
-                            itemTooltip.hide();
+                        if (itemTooltip.location && itemTooltip.location[0] === row || itemTooltip.location[1] === slot) {
                             if (itemTooltip.location !== undefined && itemTooltip.pinLocation !== undefined) {
+                                itemTooltip.location = itemTooltip.pinLocation;
                                 const [row, slot] = itemTooltip.pinLocation;
                                 const daCell = tableBody.rows[row].cells.item(slot);
                                 const item = getItem(row, slot);
                                 itemTooltip.replaceParent(daCell.children.item(0));
                                 itemTooltip.setItem(item);
+                            } else {
+                                itemTooltip.hide();
                             }
                         }
                     });
