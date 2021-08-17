@@ -1,0 +1,23 @@
+/**
+    Minecraftia Regular font-face import
+    https://dafont.com/minecraftia.font
+ */
+@font-face {
+    font-family: 'minecraftia-regular';
+    src: url('minecraftia-regular.woff2') format('woff2'),
+        url('minecraftia-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/**
+    Minecraftia Bold font-face import
+    https://fonts2u.com/minecraft-bold.font
+ */
+@font-face {
+    font-family: 'minecraftia-bold';
+    src: url('minecraftia-bold.woff2') format('woff2'),
+        url('minecraftia-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

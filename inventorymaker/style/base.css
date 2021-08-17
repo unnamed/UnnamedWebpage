@@ -44,7 +44,11 @@
 /** Live-input rendering styles */
 .mc-text-output {
     color: #3f3f3f;
-    font-family: 'minecraftmedium', sans-serif;
+    font-family: 'minecraftia-regular', monospace;
+}
+
+.mc-text-output b {
+    font-family: 'minecraftia-bold', monospace;
 }
 
 /* Controls properties */

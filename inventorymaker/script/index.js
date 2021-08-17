@@ -234,9 +234,10 @@
     /**
      * Represents a Minecraft Item
      * @typedef {Object} Item
-     * @property {number} type
+     * @property {number | string} type
      * @property {string} displayName
      * @property {string[]} lore
+     * @property {string | undefined} bound
      */
 
     /**
@@ -305,6 +306,7 @@
     const itemTypeElement = $("#item-type");
     const removeItemElement = $("#remove-item");
     const displayNameElement = $("#display-name");
+    const bindingElement = $("#binding");
     const loreElement = $("#lore");
     const titleInput = $("#title");
     const titleOutput = $("#title-display");
@@ -522,6 +524,7 @@
         itemTypeElement.disabled = false;
         removeItemElement.disabled = false;
         displayNameElement.disabled = false;
+        bindingElement.disabled = false;
         loreElement.disabled = false;
 
         if (item) {
