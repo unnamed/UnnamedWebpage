@@ -1,0 +1,39 @@
+/**
+    Minecraft Regular font-face import
+ */
+@font-face {
+    font-family: 'minecraft-regular';
+    src: url('minecraft-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/**
+    Minecraft Bold font-face import
+ */
+@font-face {
+    font-family: 'minecraft-bold';
+    src: url('minecraft-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/**
+    Minecraft Italic font-face import
+ */
+@font-face {
+    font-family: 'minecraft-italic';
+    src: url('minecraft-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/**
+    Minecraft Bold-Italic font-face import
+ */
+@font-face {
+    font-family: 'minecraft-bolditalic';
+    src: url('minecraft-bolditalic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
