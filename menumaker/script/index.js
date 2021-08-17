@@ -334,7 +334,7 @@
     let tableBody = $("#table-body");
 
     $("#item-search").addEventListener("input", event => {
-        const query = event.target.value;
+        const query = event.target.value.toLowerCase();
         for (const element of itemListElement.children) {
             if (element.children.item(1).innerHTML.toLowerCase().includes(query)) {
                 element.classList.remove("hidden");
@@ -376,8 +376,14 @@
             img.setAttribute("data-src", src(item.type, item.meta));
             img.classList.add("lazyload");
 
+            const label = document.createElement("p");
+            label.innerText = item.name;
+            label.classList.add("hidden");
+
             itemElement.appendChild(img);
             itemElement.setAttribute("draggable", "true");
+
+            itemElement.appendChild(label);
 
             itemElement.addEventListener("dragstart", () => dragging = { type: key });
             itemListElement.appendChild(itemElement);
