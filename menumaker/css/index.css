@@ -177,7 +177,13 @@ nav {
     border: 1px solid var(--color);
     padding: .8vw;
     width: 30%;
-    margin: 1vh 0;
+    margin: .8vh 0;
+}
+
+@media (max-width: 1100px) {
+    .item-element {
+        width: 48%;
+    }
 }
 
 .item-element img {
@@ -241,6 +247,12 @@ main > h3 {
     display: block;
     width: 80%;
     margin: .5vh auto;
+}
+
+@media (max-width: 1100px) {
+    #workspace {
+        width: 95%;
+    }
 }
 
 #workspace table {
@@ -342,4 +354,32 @@ main > h3 {
  */
 .hidden {
     display: none;
+}
+
+@media (max-width: 900px) {
+    .left-sidebar {
+        width: calc(var(--left-sidebar-width) + (var(--right-sidebar-width) / 3));
+    }
+
+    main {
+        width: calc(100% - var(--left-sidebar-width) - (var(--right-sidebar-width) / 3));
+    }
+
+    .right-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .item-element {
+        width: 100%;
+    }
+
+    main {
+        width: 100%;
+    }
+
+    .left-sidebar {
+        display: none;
+    }
 }
