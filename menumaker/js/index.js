@@ -5,6 +5,26 @@
     const $ = selectors => document.querySelector(selectors);
 
     /**
+     * Class that represents a menu location
+     * @param {number} row The slot row
+     * @param {number} slot The slot in the row
+     */
+    function Slot(row, slot) {
+        this.row = row;
+        this.slot = slot;
+
+        /**
+         * Determines if this slot is equal to
+         * the given 'other' slot
+         * @param other The compared slot
+         * @returns {boolean} True if equal
+         */
+        this.equals = function(other) {
+            return this.row === row && this.slot === slot;
+        };
+    }
+
+    /**
      * Replaces the given element by the given replacement
      * @param {HTMLElement} element The replaced element
      * @param {HTMLElement} replacement The replacement
@@ -143,6 +163,13 @@
     $("#export").addEventListener("click", exportInfo);
     //#endregion
 
+    /**
+     * @typedef {Object} Drag
+     * @property {Slot | undefined} source The source
+     * location of the dragged item
+     *
+     * @type {Drag}
+     */
     let dragging = undefined;
 
     //#region Some constants
@@ -183,7 +210,7 @@
                 element.classList.add("hidden");
             }
         }
-    })
+    });
 
     function src(type, meta) {
         return `https://raw.githubusercontent.com/unnamed/webpage/master/menumaker/assets/1.8/${type}-${meta}.png`;
@@ -283,6 +310,36 @@
     }
 
     /**
+     * Sets the given item to the specified
+     * slot in the menu.
+     * @param {Slot} slot The target slot
+     * @param {Object} item The set item
+     */
+    function setItem(slot, item) {
+        let rowData = data.rows[slot.row];
+        if (rowData === undefined) {
+            rowData = data.rows[slot.row] = [];
+        }
+        rowData[slot.slot] = item;
+    }
+
+    function dropDrag(event) {
+        event.preventDefault();
+        if (dragging) {
+            const source = dragging.source;
+            dragging = undefined;
+            if (source) {
+                // remove the item
+                setItem(source, undefined);
+            }
+            draw();
+        }
+    }
+
+    itemListElement.addEventListener("dragover", event => event.preventDefault());
+    itemListElement.addEventListener("drop", dropDrag);
+
+    /**
      * Draws the menu to the HTML
      */
     function draw() {
@@ -307,6 +364,12 @@
                 cell.addEventListener("drop", event => {
                     event.preventDefault();
                     if (!item && dragging) {
+                        const source = dragging.source;
+                        if (source) {
+                            // remove the item
+                            setItem(source, undefined);
+                        }
+                        delete dragging.source;
                         rowData[slot] = { ...dragging };
                         dragging = undefined;
                         draw();
@@ -336,7 +399,7 @@
 
                     img.setAttribute("draggable", "true");
                     img.addEventListener("dragstart", () => {
-                        dragging = item;
+                        dragging = { ...item, source: new Slot(row, slot) };
                     })
                     img.addEventListener("mouseenter", () => {
                         itemTooltip.location = [row, slot];
