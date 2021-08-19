@@ -16,7 +16,7 @@
         /**
          * Determines if this slot is equal to
          * the given 'other' slot
-         * @param other The compared slot
+         * @param {Slot} other The compared slot
          * @returns {boolean} True if equal
          */
         this.equals = function(other) {
