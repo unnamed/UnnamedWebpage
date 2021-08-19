@@ -1,184 +1,45 @@
+/*! Unnamed Team's Webpage v0.1.0 | MIT License | github.com/unnamed/webpage */
+
 (function() {
 
     const $ = selectors => document.querySelector(selectors);
 
-    //#region Text Formatting Library
     /**
-     * Colorizes the given input
-     * @param {string} input The string input
-     * @return {string} The HTML output
+     * Replaces the given element by the given replacement
+     * @param {HTMLElement} element The replaced element
+     * @param {HTMLElement} replacement The replacement
      */
-    const format = (function() {
+    function replace(element, replacement) {
+        element.parentNode.replaceChild(replacement, element);
+    }
 
-        const examples = {
-            player_name: ['Yusshu', 'AllanGame', 'MomlessTomato'],
-            count: ['0', '10', '20', '30']
-        };
-        let exampleTick = 0;
+    function asString(value) {
+        if (value === undefined) return ""; // empty for undefined
+        if (Array.isArray(value)) return value.join('\n'); // join
+        return value;
+    }
 
-        // task to update placeholders by some examples
-        setInterval(() => {
-            for (const placeholderElement of document.getElementsByClassName("placeholder")) {
-                const placeholder = placeholderElement.dataset["placeholder"];
-                const values = examples[placeholder];
-                if (values) {
-                    placeholderElement.innerText
-                        = values[exampleTick % values.length];
-                }
-            }
+    const formatter = new MCFormat();
 
-            exampleTick++;
-        }, 2000);
-
-        // color char constant
-        const COLOR_CHAR = '&';
-        const PLACEHOLDER_VALID_CHARS = 'AaBbCcDdEeFfGgHhIiJjKkMmNnLlOoPpQqRrSsTtUuVvWwXxYyZz-_,;!0123456789';
-        const PLACEHOLDER_OPEN = '%';
-        const PLACEHOLDER_CLOSE = '%';
-
-        // special codes
-        const STRIKETHROUGH = 'm';
-        const ITALIC = 'o';
-        const BOLD = 'l';
-        const UNDERLINE = 'n';
-
-        /**
-         * Object containing all color characters
-         * and their hex color
-         */
-        const COLORS = {
-            '0': '000000', // black
-            '1': '0000AA', // dark blue
-            '2': '00AA00', // dark green
-            '3': '00AAAA', // dark aqua
-            '4': 'AA0000', // dark red
-            '5': 'AA00AA', // dark purple
-            '6': 'FFAA00', // gold
-            '7': 'AAAAAA', // gray
-            '8': '555555', // dark gray
-            '9': '5555FF', // blue
-            'a': '55FF55', // green
-            'b': '55FFFF', // aqua
-            'c': 'FF5555', // red
-            'd': 'FF55FF', // light purple
-            'e': 'FFFF55', // yellow
-            'f': 'FFFFFF', // white
-            'r': 'FFFFFF' // reset = white
-        };
-
-        return input => {
-            const output = [];
-            let suffixes = [];
-
-            for (let i = 0; i < input.length; i++) {
-                const current = input.charAt(i);
-
-                if (current !== COLOR_CHAR) {
-
-                    // check if placeholder
-                    if (current === PLACEHOLDER_OPEN) {
-                        let placeholder = [];
-                        let replaced = false;
-
-                        // start checking for next characters
-                        while (++i < input.length) {
-                            const char = input.charAt(i);
-
-                            // close character found, stop
-                            if (char === PLACEHOLDER_CLOSE) {
-                                // push the tag open, it's immediately closed
-                                const placeholderStr = placeholder.join('');
-                                output.push(`<span class="placeholder" data-placeholder="${placeholderStr}">`
-                                    + `${PLACEHOLDER_OPEN}${placeholderStr}${PLACEHOLDER_CLOSE}</span>`);
-                                replaced = true;
-                                break;
-                            } else if (!PLACEHOLDER_VALID_CHARS.includes(char)) {
-                                i--; // so next iteration processes this char
-                                // push raw
-                                output.push(PLACEHOLDER_OPEN);
-                                output.push(placeholder.join(''));
-                                replaced = true;
-                                break;
-                            }
-                            placeholder.push(char);
-                        }
-
-                        if (!replaced) {
-                            output.push(PLACEHOLDER_OPEN);
-                            output.push(placeholder.join(''));
-                        }
-                        continue;
-                    }
-
-                    // not a color char, just push it
-                    output.push(current);
-                    continue;
-                }
-
-                const nextIndex = ++i;
-                if (nextIndex >= input.length) {
-                    // last character, push it and the
-                    // current suffixes
-                    output.push(current);
-                    while (suffixes.length > 0) {
-                        output.push(suffixes.pop());
-                    }
-                    continue;
-                }
-
-                const code = input.charAt(nextIndex);
-                const hex = COLORS[code];
-
-                if (hex) {
-                    // push the previous prefixes
-                    while (suffixes.length > 0) {
-                        output.push(suffixes.pop());
-                    }
-
-                    // push the prefix
-                    output.push(`<span style="color: #${hex}">`);
-                    // push the suffix
-                    suffixes.push('</span>')
-                } else {
-                    // now lets check if its a special code
-                    switch (code) {
-                        case STRIKETHROUGH: {
-                            output.push('<span style="text-decoration: line-through;">');
-                            suffixes.push('</span>');
-                            break;
-                        }
-                        case ITALIC: {
-                            output.push('<i>');
-                            suffixes.push('</i>');
-                            break;
-                        }
-                        case BOLD: {
-                            output.push('<b>');
-                            suffixes.push('</b>');
-                            break;
-                        }
-                        case UNDERLINE: {
-                            output.push('<span style="text-decoration: underline;">');
-                            suffixes.push('</span>');
-                            break;
-                        }
-                        default: {
-                            // not a code, push everything
-                            output.push(current);
-                            output.push(code);
-                        }
-                    }
-                }
-            }
-            // concatenation in some browsers is a
-            // bit slow, so use an array and join it
-            return output.join('') + suffixes.reverse().join('');
+    /**
+     * Formats the given text into the specified
+     * element using a single children
+     * @param {HTMLElement} element The element where
+     * the rich text will be put
+     * @param {string} text The raw text
+     */
+    MCFormat.prototype.formatInto = function (element, text) {
+        const children = element.children;
+        const output = this.format(text);
+        if (children.length === 0) {
+            element.appendChild(output);
+        } else {
+            replace(children.item(0), output);
         }
-    })();
-    //#endregion
+    };
 
     const dialog = (function () {
-        const dialogElement = $("#dialog-bg");
+        const dialogElement = $("#dialog-container");
 
         const dialog = {
             /**
@@ -282,28 +143,6 @@
     $("#export").addEventListener("click", exportInfo);
     //#endregion
 
-    //#region Input linking library
-    /**
-     * Code for binding input elements with
-     * their "Minecraft-style" display elements
-     */
-
-    const INPUT_CLASS = "live-input";
-
-    for (const input of document.getElementsByClassName(INPUT_CLASS)) {
-
-        const output = document.getElementById(input.dataset.bound);
-
-        // update 'output' when 'input' changes
-        input.addEventListener("input", event => {
-            output.innerHTML = format(event.target.value);
-        });
-
-        // initial update
-        output.innerHTML = format(input.value);
-    }
-    //#endregion
-
     let dragging = undefined;
 
     //#region Some constants
@@ -323,13 +162,15 @@
     };
 
     const itemListElement = $("#item-list");
-    const itemTypeElement = $("#item-type");
-    const removeItemElement = $("#remove-item");
-    const displayNameElement = $("#display-name");
-    const bindingElement = $("#binding");
-    const loreElement = $("#lore");
     const titleInput = $("#title");
     const titleOutput = $("#title-display");
+
+    const itemControls = {
+        type: $("#item-type"),
+        displayName: $("#display-name"),
+        binding: $("#binding"),
+        lore: $("#lore")
+    };
 
     let tableBody = $("#table-body");
 
@@ -368,7 +209,7 @@
             const option = document.createElement("option");
             option.value = key;
             option.innerHTML = item.name;
-            itemTypeElement.options.add(option);
+            itemControls.type.options.add(option);
 
             const itemElement = document.createElement("div");
             itemElement.classList.add("item-element");
@@ -385,7 +226,13 @@
 
             itemElement.appendChild(label);
 
-            itemElement.addEventListener("dragstart", () => dragging = { type: key });
+            itemElement.addEventListener("dragstart", () => {
+                dragging = {
+                    type: key,
+                    displayName: item.name,
+                    lore: []
+                };
+            });
             itemListElement.appendChild(itemElement);
         });
     }
@@ -400,13 +247,13 @@
     //#region Item Tooltip
     const itemTooltip = (() => {
         const container = $("#item-tooltip");
-        const nameElement = $("#display-name-display");
-        const loreElement = $("#lore-display");
+        const displayName = $("#display-name-display");
+        const lore = $("#lore-display");
 
         return {
             container,
-            nameElement,
-            loreElement,
+            displayName,
+            lore,
             pinLocation: undefined,
             location: undefined,
             hide() {
@@ -421,8 +268,8 @@
                 parent.appendChild(this.container);
             },
             setItem(item) {
-                this.nameElement.innerHTML = format(item.displayName);
-                this.loreElement.innerHTML = format(item.lore.join('<br>'));
+                formatter.formatInto(this.displayName, item.displayName);
+                formatter.formatInto(this.lore, item.lore.join('<br>'));
             }
         };
     })();
@@ -442,7 +289,7 @@
 
         // update title
         titleInput.value = data.title;
-        titleOutput.innerHTML = format(data.title);
+        formatter.formatInto(titleOutput, data.title);
 
         const newBody = document.createElement("tbody");
 
@@ -460,25 +307,7 @@
                 cell.addEventListener("drop", event => {
                     event.preventDefault();
                     if (!item && dragging) {
-                        let displayName = '';
-                        let lore = [];
-
-                        if (dragging.source) {
-                            const sourceRowData = data.rows[dragging.source[0]];
-                            if (sourceRowData) {
-                                const srcItem = sourceRowData[dragging.source[1]];
-                                if (srcItem) {
-                                    displayName = srcItem.displayName;
-                                    lore = srcItem.lore;
-                                }
-                                sourceRowData[dragging.source[1]] = undefined;
-                            }
-                        }
-                        rowData[slot] = {
-                            type: dragging.type,
-                            displayName,
-                            lore
-                        };
+                        rowData[slot] = { ...dragging };
                         dragging = undefined;
                         draw();
                     }
@@ -492,7 +321,7 @@
                         if (itemTooltip.pinLocation && itemTooltip.pinLocation[0] === row && itemTooltip.pinLocation[1] === slot) {
                             itemTooltip.hide();
                             itemTooltip.pinLocation = undefined;
-                            itemTooltip.location = undefined;
+                            // itemTooltip.location = undefined;
                             return;
                         }
                         itemTooltip.replaceParent(cell);
@@ -507,7 +336,7 @@
 
                     img.setAttribute("draggable", "true");
                     img.addEventListener("dragstart", () => {
-                        dragging = { source: [row, slot], type: item.type };
+                        dragging = item;
                     })
                     img.addEventListener("mouseenter", () => {
                         itemTooltip.location = [row, slot];
@@ -538,8 +367,7 @@
             }
         }
 
-        // replace
-        tableBody.parentNode.replaceChild(newBody, tableBody);
+        replace(tableBody, newBody);
         tableBody = newBody;
     }
 
@@ -552,45 +380,25 @@
      */
     function setSelection(row, slot, item) {
 
-        itemTypeElement.disabled = false;
-        displayNameElement.disabled = false;
-        bindingElement.disabled = false;
-        loreElement.disabled = false;
+        /* Enable all item controls */
+        for (const controlName in itemControls) {
+            const control = itemControls[controlName];
+            control.disabled = false;
+        }
 
         if (item) {
-            itemTypeElement.value = item.type;
-            displayNameElement.value = item.displayName;
-            loreElement.value = item.lore.join("\n");
+            /* Set values to controls */
+            for (const controlName in itemControls) {
+                const control = itemControls[controlName];
+                control.value = asString(item[controlName]);
+            }
         } else {
-            displayNameElement.value = "";
-            loreElement.value = "";
+            /* Reset all controls */
+            for (const controlName in itemControls) {
+                const control = itemControls[controlName];
+                control.value = "";
+            }
         }
-    }
-
-    /**
-     * Removes the current selection specified
-     * by 'selectedSlot' variable
-     */
-    function removeSelection() {
-
-        if (!selectedSlot) {
-            // should never pass but we
-            // check anyways
-            return;
-        }
-
-        const [row, slot] = selectedSlot;
-        const rowData = data.rows[row];
-
-        if (rowData) {
-            // remove it!
-            delete rowData[slot];
-            // update menu
-            draw();
-        }
-
-        displayNameElement.value = "";
-        loreElement.value = "";
     }
 
     /**
@@ -615,35 +423,38 @@
 
     titleInput.addEventListener("input", event => data.title = event.target.value);
 
-    itemTypeElement.addEventListener("change", event => {
-        if (!itemTooltip.pinLocation) {
-            return;
+    for (const controlName in itemControls) {
+        const control = itemControls[controlName];
+        if (control instanceof HTMLSelectElement) {
+            control.addEventListener("change", event => {
+                if (!itemTooltip.pinLocation) {
+                    return;
+                }
+
+                const [ row, slot ] = itemTooltip.pinLocation;
+                const item = getItem(row, slot);
+                item[controlName] = parseInt(event.target.value);
+                draw();
+            });
+        } else if (control instanceof HTMLInputElement
+            || control instanceof HTMLTextAreaElement) {
+            control.addEventListener("input", event => {
+
+                if (itemTooltip.location
+                    && itemTooltip.pinLocation
+                    && itemTooltip.location[0] === itemTooltip.pinLocation[0]
+                    && itemTooltip.location[1] === itemTooltip.pinLocation[1]) {
+                    formatter.formatInto(itemTooltip[controlName], event.target.value);
+                }
+
+                if (itemTooltip.pinLocation) {
+                    const [ row, slot ] = itemTooltip.pinLocation;
+                    const item = getItem(row, slot);
+                    item[controlName] = event.target.value;
+                }
+            });
         }
-        const [ row, slot ] = itemTooltip.pinLocation;
-        const item = getItem(row, slot);
-        item.type = parseInt(event.target.value);
-        draw();
-    });
-    displayNameElement.addEventListener("input", event => {
-        if (itemTooltip.location === itemTooltip.pinLocation) {
-            itemTooltip.nameElement.innerHTML = format(event.target.value);
-        }
-        if (itemTooltip.pinLocation) {
-            const [ row, slot ] = itemTooltip.pinLocation;
-            const item = getItem(row, slot);
-            item.displayName = event.target.value;
-        }
-    });
-    loreElement.addEventListener("input", event => {
-        if (itemTooltip.location === itemTooltip.pinLocation) {
-            itemTooltip.loreElement.innerHTML = format(event.target.value.replace(/\r?\n/g, '<br>'));
-        }
-        if (itemTooltip.pinLocation) {
-            const [ row, slot ] = itemTooltip.pinLocation;
-            const item = getItem(row, slot);
-            item.lore = event.target.value.split(/\r?\n/g)
-        }
-    });
+    }
 
     window.addEventListener("beforeunload", event => {
         return event.returnValue = "Are you sure you want to leave the page? Some changes may not be saved";

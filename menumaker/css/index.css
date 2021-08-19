@@ -1,11 +1,345 @@
-@import url("base.css");
-@import url("dialog.css");
-@import url("header.css");
-@import url("workspace.css");
-@import url("sidebar.css");
-@import url("../font/minecraft.css");
+/*! Unnamed Team's Webpage v0.1.0 | MIT License | github.com/unnamed/webpage */
 
 * {
-    /* Global properties */
+    /* Remove default margin and padding from all elements */
+    margin: 0;
+    padding: 0;
+
+    /* Use border-box box sizing */
     box-sizing: border-box;
+}
+
+:root {
+    /* Colors */
+    --color: #ceccd2;
+    --bg: #18181d;
+    --secondary-bg: #27272b;
+    --workspace-bg: #3d3d42;
+
+    /* Properties */
+    --header-height: 50px;
+    --left-sidebar-width: 18%;
+    --right-sidebar-width: 22%;
+    --default-size: 16px;
+    --slot-size: 80px;
+}
+
+/* It's a single and non-scrollable webpage */
+body { overflow: hidden; }
+
+.text {
+    color: var(--color);
+    font-family: 'minecraft-regular', monospace;
+}
+
+.space-between {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/** Live-input rendering styles */
+.mc-text-output {
+    color: #3f3f3f;
+    font-family: 'minecraft-regular', monospace;
+}
+
+.mc-text-output b {
+    font-family: 'minecraft-bold', monospace;
+}
+
+.mc-text-output i {
+    font-family: 'minecraft-italic', monospace;
+}
+
+.mc-text-output b i, .mc-text-output i b {
+    font-family: 'minecraft-bolditalic', monospace;
+}
+
+/* Controls properties */
+button, select {
+    background: none;
+    outline: none;
+    padding: 8px 16px;
+
+    border-radius: 8px;
+
+    border: 1px solid var(--color);
+    font-size: var(--default-size);
+}
+
+button:enabled:hover, select:enabled:hover {
+    cursor: pointer;
+    background-color: var(--color);
+    color: var(--bg);
+}
+
+
+/*
+ * Dialog
+ * ===========================================================
+ */
+.dialog-bg {
+    /**
+     * Dialog background styles, this makes the
+     * background darker
+     */
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, .7);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#dialog {
+    /**
+     * Dialog container styles
+     */
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, .2);
+    background-color: var(--secondary-bg);
+    border-radius: 8px;
+    padding: 32px;
+    position: absolute;
+
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Add some space between dialog components */
+#dialog__heading { margin-bottom: 10px; }
+#dialog__info { margin-bottom: 20px; }
+
+
+/*
+ * Header
+ * ===========================================================
+ */
+header {
+    display: flex;
+    height: var(--header-height);
+    background-color: var(--bg);
+    padding: 8px 50px;
+}
+
+.header__element {
+    display: inline-block;
+}
+
+.header__tools {
+    display: flex;
+}
+.header__tools button, .header__tools select {
+    margin: 0 8px;
+}
+
+/*
+ * Sidebars
+ * ===========================================================
+ */
+nav {
+    display: flex;
+    flex: 0 0 100px;
+    height: calc(100vh - var(--header-height));
+    background-color: var(--secondary-bg);
+    padding: 8px 16px;
+
+    flex-direction: column;
+    justify-content: space-between;
+
+    margin: 0;
+}
+
+.left-sidebar {
+    float: left;
+    width: var(--left-sidebar-width);
+    justify-content: start;
+}
+
+#item-list-container {
+    display: flex;
+    min-height: 0;
+}
+
+#item-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.item-element {
+    cursor: move;
+    display: inline-block;
+    border: 1px solid var(--color);
+    padding: .8vw;
+    width: 30%;
+    margin: 1vh 0;
+}
+
+.item-element img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.right-sidebar {
+    float: right;
+    width: var(--right-sidebar-width);
+    padding: 25px;
+}
+
+.input label {
+    font-size: 12px;
+}
+
+.input select:enabled:hover {
+    background-color: var(--color);
+}
+
+.input input, .input textarea, .input select {
+    border: 1px solid var(--color);
+    margin: 0 0 12px;
+    font-size: 16px;
+    background: none;
+    width: 100%;
+    padding: 8px;
+    outline: none;
+}
+
+#lore {
+    height: 80%;
+}
+
+#lore-input {
+    height: 50%;
+}
+
+/*
+ * Workspace
+ * ===========================================================
+ */
+main {
+    display: inline-block;
+    background-color: var(--workspace-bg);
+
+    width: calc(100% - var(--left-sidebar-width) - var(--right-sidebar-width));
+    height: calc(100vh - var(--header-height));
+    padding: 16px;
+    overflow: hidden;
+}
+
+main > h3 {
+    text-align: center;
+}
+
+/* Inventory table */
+#workspace {
+    display: block;
+    width: 80%;
+    margin: .5vh auto;
+}
+
+#workspace table {
+
+    width: 100%;
+    background-color: #cccccc;
+    padding: 0 .9em .9em;
+
+    border-spacing: 0;
+}
+
+.inventory-outliner {
+    outline: .35vw solid #000;
+
+    border-top: .35vw solid #fff;
+    border-left: .35vw solid #fff;
+    border-right: .35vw solid #555555;
+    border-bottom: .35vw solid #555555;
+}
+
+#workspace .title {
+
+    width: 100%;
+
+    font-size: 2.3em;
+    font-weight: 100;
+
+    padding: 1vw;
+
+    background-color: #cccccc;
+    border: none;
+    outline: none;
+}
+
+#workspace td::after {
+    content: '';
+    display: block;
+    margin-top: 100%;
+}
+
+.cell-content {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#workspace td {
+
+    position: relative;
+    width: 11.11%;
+
+    background-color: #8b8b8b;
+    cursor: pointer;
+
+    /* Shadow */
+    border-top: .35vw solid #373737;
+    border-left: .35vw solid #373737;
+
+    /* Light */
+    border-bottom: .35vw solid #fff;
+    border-right: .35vw solid #fff;
+}
+
+#workspace td img {
+    width: 100%;
+    height: 100%;
+}
+
+#workspace td:hover {
+    background-color: #dbdbdb;
+}
+
+#workspace td img:hover {
+    filter: opacity(50%);
+}
+
+#item-tooltip {
+    z-index: 100;
+    position: absolute;
+    white-space: nowrap;
+    padding: 0 8px;
+    background-color: #000;
+    border: .15vw solid #2a0d74;
+    border-radius: 3px;
+    outline: .15vw solid #000;
+}
+
+#item-tooltip p {
+    color: var(--color);
+    font-size: 1.4vw;
+    margin: .35vw 0;
+}
+
+/*
+ * Important Styles
+ * ===========================================================
+ */
+.hidden {
+    display: none;
 }
