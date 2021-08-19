@@ -19,7 +19,7 @@
         return value;
     }
 
-    const formatter = new MCFormat();
+    const formatter = new MCFormat({ colorChar: "&", allowMagic: true });
 
     /**
      * Formats the given text into the specified
