@@ -1,0 +1,129 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #3f3d3f;
+}
+
+.file-input.is-dragover {
+    background: rgba(0, 0, 0, .5);
+}
+
+.ghost {
+    background: rgba(0, 0, 0, .25);
+}
+
+.file-input {
+    height: 25%;
+    width: 30%;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.mc-text {
+    font-family: 'minecraft-regular', monospace;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.5em;
+    position: relative;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, .4);
+}
+
+#emoji-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.emoji {
+    display: flex;
+    width: 22%;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+}
+
+.emoji img {
+    height: 70px;
+    margin: 10px;
+}
+
+.properties {
+    display: inline-flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.emoji input {
+
+    font-family: 'minecraft-regular', monospace;
+    color: rgba(255, 255, 255, .6);
+    font-size: 1.1em;
+
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, .6);
+
+    margin: 5px 10px;
+    outline: none;
+}
+
+
+#save {
+    display: block;
+    font-family: 'minecraft-regular', monospace;
+    font-size: 1.2em;
+    margin: auto;
+    padding: 10px 20px;
+    border: none;
+
+    background: rgba(0, 0, 0, .25);
+    cursor: pointer;
+    color: rgba(255, 255, 255, .6);
+}
+
+#save:hover {
+    background: rgba(0, 0, 0, .35);
+}
+
+@media (max-width: 1460px) {
+    .emoji {
+        width: 28%;
+    }
+    .file-input {
+        width: 40%;
+    }
+}
+
+@media (max-width: 1080px) {
+    .emoji {
+        width: 40%;
+    }
+    .file-input {
+        width: 70%;
+    }
+}
+
+@media (max-width: 500px) {
+    .emoji {
+        width: 100%;
+    }
+    .file-input {
+        width: 80%;
+    }
+}
