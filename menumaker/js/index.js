@@ -20,6 +20,9 @@
          * @returns {boolean} True if equal
          */
         this.equals = function(other) {
+            if (!other) {
+                return false;
+            }
             return this.row === other.row && this.slot === other.slot;
         };
     }
@@ -212,6 +215,13 @@
         }
     });
 
+    /* Listener for title changes */
+    titleInput.addEventListener("input", event => {
+        const value = event.target.value;
+        formatter.formatInto(titleOutput, value);
+        data.title = value;
+    });
+
     function src(type, meta) {
         return `https://raw.githubusercontent.com/unnamed/webpage/master/menumaker/assets/1.8/${type}-${meta}.png`;
     }
@@ -272,6 +282,16 @@
         });
 
     //#region Item Tooltip
+    /**
+     * @typedef {Object} Tooltip
+     * @property {HTMLElement} container The container element
+     * @property {HTMLElement} displayName The display name element
+     * @property {HTMLElement} lore The lore element
+     * @property {Slot | undefined} pinLocation The pin location
+     * @property {Slot | undefined} location The tooltip location
+     *
+     * @type {Tooltip}
+     */
     const itemTooltip = (() => {
         const container = $("#item-tooltip");
         const displayName = $("#display-name-display");
@@ -329,6 +349,9 @@
             const source = dragging.source;
             dragging = undefined;
             if (source) {
+                if (source.equals(itemTooltip.pinLocation)) {
+                    itemTooltip.pinLocation = undefined; // remove pin location
+                }
                 // remove the item
                 setItem(source, undefined);
             }
@@ -355,6 +378,8 @@
             const rowData = data.rows[row];
             const tableRow = newBody.insertRow();
             for (let slot = 0; slot < ROW_SIZE; slot++) {
+
+                const location = new Slot(row, slot);
                 const item = rowData[slot];
 
                 const realCell = tableRow.insertCell();
@@ -366,6 +391,9 @@
                     if (!item && dragging) {
                         const source = dragging.source;
                         if (source) {
+                            if (source.equals(itemTooltip.pinLocation)) {
+                                itemTooltip.pinLocation = location; // set pin to here
+                            }
                             // remove the item
                             setItem(source, undefined);
                         }
@@ -381,7 +409,7 @@
 
                 cell.addEventListener("click", () => {
                     if (item) {
-                        if (itemTooltip.pinLocation && itemTooltip.pinLocation[0] === row && itemTooltip.pinLocation[1] === slot) {
+                        if (itemTooltip.pinLocation && itemTooltip.pinLocation.equals(location)) {
                             itemTooltip.hide();
                             itemTooltip.pinLocation = undefined;
                             // itemTooltip.location = undefined;
@@ -389,7 +417,7 @@
                         }
                         itemTooltip.replaceParent(cell);
                         itemTooltip.setItem(item);
-                        itemTooltip.pinLocation = itemTooltip.location = [row, slot];
+                        itemTooltip.pinLocation = itemTooltip.location = location;
                         setSelection(row, slot, item);
                     }
                 });
@@ -399,18 +427,18 @@
 
                     img.setAttribute("draggable", "true");
                     img.addEventListener("dragstart", () => {
-                        dragging = { ...item, source: new Slot(row, slot) };
+                        dragging = { ...item, source: location };
                     })
                     img.addEventListener("mouseenter", () => {
-                        itemTooltip.location = [row, slot];
+                        itemTooltip.location = location;
                         itemTooltip.replaceParent(cell);
                         itemTooltip.setItem(item);
                     });
                     img.addEventListener("mouseleave", () => {
-                        if (itemTooltip.location && itemTooltip.location[0] === row || itemTooltip.location[1] === slot) {
-                            if (itemTooltip.location !== undefined && itemTooltip.pinLocation !== undefined) {
+                        if (itemTooltip.location && itemTooltip.location.equals(location)) {
+                            if (itemTooltip.pinLocation !== undefined) {
                                 itemTooltip.location = itemTooltip.pinLocation;
-                                const [row, slot] = itemTooltip.pinLocation;
+                                const { row, slot } = itemTooltip.pinLocation;
                                 const daCell = tableBody.rows[row].cells.item(slot);
                                 const item = getItem(row, slot);
                                 itemTooltip.replaceParent(daCell.children.item(0));
@@ -494,7 +522,7 @@
                     return;
                 }
 
-                const [ row, slot ] = itemTooltip.pinLocation;
+                const { row, slot } = itemTooltip.pinLocation;
                 const item = getItem(row, slot);
                 item[controlName] = parseInt(event.target.value);
                 draw();
@@ -505,13 +533,12 @@
 
                 if (itemTooltip.location
                     && itemTooltip.pinLocation
-                    && itemTooltip.location[0] === itemTooltip.pinLocation[0]
-                    && itemTooltip.location[1] === itemTooltip.pinLocation[1]) {
+                    && itemTooltip.location.equals(itemTooltip.pinLocation)) {
                     formatter.formatInto(itemTooltip[controlName], event.target.value);
                 }
 
                 if (itemTooltip.pinLocation) {
-                    const [ row, slot ] = itemTooltip.pinLocation;
+                    const { row, slot } = itemTooltip.pinLocation;
                     const item = getItem(row, slot);
                     item[controlName] = event.target.value;
                 }
