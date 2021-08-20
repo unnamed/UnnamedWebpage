@@ -203,6 +203,7 @@
     };
 
     let tableBody = $("#table-body");
+    let rowContainer = $("#row-container");
 
     $("#item-search").addEventListener("input", event => {
         const query = event.target.value.toLowerCase();
@@ -372,6 +373,7 @@
         formatter.formatInto(titleOutput, data.title);
 
         const newBody = document.createElement("tbody");
+        const newRowContainer = document.createElement("div");
 
         // then write the new rows
         for (let row = 0; row < data.rows.length; row++) {
@@ -456,10 +458,25 @@
                     cell.appendChild(img);
                 }
             }
+
+            const rowElement = document.createElement("div");
+            rowElement.classList.add("row");
+            rowElement.innerHTML = `
+                <span class="row-number text">Row ${row + 1}</span>
+                <div class="row-buttons">
+                    <button class="row-move-up"><i class="fas fa-chevron-up"></i></button>
+                    <button class="row-move-down"><i class="fas fa-chevron-down"></i></button>
+                    <button class="row-delete"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            `;
+
+            newRowContainer.appendChild(rowElement);
         }
 
         replace(tableBody, newBody);
+        replace(rowContainer, newRowContainer);
         tableBody = newBody;
+        rowContainer = newRowContainer;
     }
 
     /**

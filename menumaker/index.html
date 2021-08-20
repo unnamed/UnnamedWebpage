@@ -12,6 +12,7 @@
     <meta property="og:url" content="https://unnamed.team/menumaker">
     <meta property="og:description" content="Web-application to easily create Minecraft menus">
 
+    <script src="https://kit.fontawesome.com/faed1641f3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/vendor/mcformat.min.css">
     <link rel="stylesheet" href="css/index.css">
     <title>menumaker</title>
@@ -24,7 +25,7 @@
         <h2 class="text" id="dialog__heading"></h2>
         <p class="text" id="dialog__info"></p>
         <div id="dialog__options">
-            <button class="text" id="close-dialog">Ok</button>
+            <button class="mm-button text" id="close-dialog">Ok</button>
         </div>
     </div>
 </div>
@@ -36,41 +37,45 @@
 </div>
 
 <!-- Header or Toolbar -->
-<header class="space-between">
+<header>
     <!-- Brand -->
     <div class="header__element">
-        <h2 class="text">menumaker</h2>
+        <h2 class="app-name text">menumaker</h2>
     </div>
 
     <!-- Editor Tools -->
     <div class="header__element header__tools space-between">
 
         <!-- Minecraft Version-->
-        <select class="text" name="version-select" id="version-select">
+        <select class="mm-select text" name="version-select" id="version-select">
             <option value="1.8">1.8</option>
             <option value="1.13">1.13</option>
         </select>
-
-        <!-- Controls -->
-        <button class="text" id="add-row">Add Row</button>
-        <button class="text">Item List</button>
-        <button class="text">Properties</button>
     </div>
 
     <!-- Buttons -->
     <div class="header__element">
-        <button class="text" id="import">Import</button>
-        <button class="text" id="export">Export</button>
+        <button class="mm-button text" id="import">Import</button>
+        <button class="mm-button text" id="export">Export</button>
     </div>
 </header>
 
 <!-- Left sidebar -->
 <nav class="left-sidebar">
     <div class="input">
+        <label class="text" for="item-search"><i class="fas fa-search"></i></label>
         <input class="text" type="text" id="item-search" placeholder="Search items...">
     </div>
     <div id="item-list-container">
         <div id="item-list">
+        </div>
+    </div>
+    <div class="rows-container">
+        <div class="row-controls">
+            <button id="add-row"><i class="fas fa-plus"></i></button>
+            <button id="clear-rows"><i class="fas fa-trash-alt"></i></button>
+        </div>
+        <div id="row-container">
         </div>
     </div>
 </nav>

@@ -17,10 +17,10 @@
     --workspace-bg: #3d3d42;
 
     /* Properties */
-    --header-height: 50px;
+    --header-height: 30px;
     --left-sidebar-width: 18%;
     --right-sidebar-width: 22%;
-    --default-size: 16px;
+    --default-size: 14px;
     --slot-size: 80px;
 }
 
@@ -32,6 +32,11 @@ body { overflow: hidden; }
     font-family: 'minecraft-regular', monospace;
 }
 
+.app-name {
+    color: var(--color);
+    font-size: 22px;
+}
+
 .space-between {
     display: flex;
     justify-items: center;
@@ -39,26 +44,15 @@ body { overflow: hidden; }
     justify-content: space-between;
 }
 
-/** Live-input rendering styles */
-.mc-text-output {
-    color: #3f3f3f;
-    font-family: 'minecraft-regular', monospace;
-}
-
-.mc-text-output b {
-    font-family: 'minecraft-bold', monospace;
-}
-
-.mc-text-output i {
-    font-family: 'minecraft-italic', monospace;
-}
-
-.mc-text-output b i, .mc-text-output i b {
-    font-family: 'minecraft-bolditalic', monospace;
-}
+/** Default color for minecraft-style outputs */
+.mc-root { color: #3f3f3f; }
 
 /* Controls properties */
-button, select {
+button {
+    cursor: pointer;
+}
+
+.mm-button, .mm-select {
     background: none;
     outline: none;
     padding: 8px 16px;
@@ -69,12 +63,10 @@ button, select {
     font-size: var(--default-size);
 }
 
-button:enabled:hover, select:enabled:hover {
-    cursor: pointer;
+.mm-button:enabled:hover, .mm-select:enabled:hover {
     background-color: var(--color);
     color: var(--bg);
 }
-
 
 /*
  * Dialog
@@ -120,18 +112,31 @@ header {
     display: flex;
     height: var(--header-height);
     background-color: var(--bg);
-    padding: 8px 50px;
+    padding: 0 20px;
+
+    justify-items: center;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
 }
 
 .header__element {
     display: inline-block;
+    height: 100%;
 }
 
 .header__tools {
     display: flex;
 }
-.header__tools button, .header__tools select {
-    margin: 0 8px;
+.header__element button, .header__element select {
+    background: none;
+    border: none;
+
+    margin: 0 4px;
+    padding: 0 10px;
+
+    height: 100%;
+    border-radius: 0;
 }
 
 /*
@@ -140,10 +145,9 @@ header {
  */
 nav {
     display: flex;
-    flex: 0 0 100px;
     height: calc(100vh - var(--header-height));
     background-color: var(--secondary-bg);
-    padding: 8px 16px;
+    padding: 0 16px;
 
     flex-direction: column;
     justify-content: space-between;
@@ -160,6 +164,7 @@ nav {
 #item-list-container {
     display: flex;
     min-height: 0;
+    height: 50%;
 }
 
 #item-list {
@@ -175,9 +180,9 @@ nav {
     cursor: move;
     display: inline-block;
     border: 1px solid var(--color);
-    padding: .8vw;
-    width: 30%;
-    margin: .8vh 0;
+    padding: .8vh;
+    width: 23%;
+    margin: .4vh 0;
 }
 
 @media (max-width: 1100px) {
@@ -192,14 +197,57 @@ nav {
     height: 100%;
 }
 
+/*
+ * Row Controls
+ * ===========================================================
+ */
+
+.rows-container {
+    flex: 1;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+
+    background-color: rgba(0, 0, 0, .17);
+}
+
+.row-controls {
+    padding: 4px 0;
+}
+
+.row {
+    display: flex;
+    padding: 4px;
+    justify-content: space-between;
+}
+
+.rows-container button {
+    background: none;
+    border: none;
+    color: var(--color);
+    padding: 0 2px;
+}
+
+.row-buttons {
+    display: inline-block;
+}
+
 .right-sidebar {
+    display: inline-block;
     float: right;
     width: var(--right-sidebar-width);
-    padding: 25px;
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
 }
 
 .input label {
-    font-size: 12px;
+    font-size: var(--default-size);
+    white-space: nowrap;
+    margin: 8px;
 }
 
 .input select:enabled:hover {
@@ -207,20 +255,24 @@ nav {
 }
 
 .input input, .input textarea, .input select {
-    border: 1px solid var(--color);
-    margin: 0 0 12px;
-    font-size: 16px;
-    background: none;
-    width: 100%;
-    padding: 8px;
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--color);
+    background: rgba(0, 0, 0, .14);
+    padding: 4px 8px;
+    font-size: var(--default-size);
     outline: none;
 }
 
 #lore {
-    height: 80%;
+    height: 95%;
+    width: 100%;
 }
 
 #lore-input {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
     height: 50%;
 }
 
