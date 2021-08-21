@@ -97,12 +97,11 @@
             view.set([
                 1,
                 emoji.height,
-                emoji.ascent
+                emoji.ascent,
+                char >> 8,
+                char & 0xFF,
+                0
             ], 0);
-
-            view.set(new TextEncoder().encode(String.fromCodePoint(char)), 3);
-
-            view.set([0], 5);
             view.set(imgBytes, 6);
 
             zip.file(`${emoji.name}.mcemoji`, buffer);
