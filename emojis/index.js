@@ -75,35 +75,38 @@
 
     $("#save").addEventListener("click", () => {
 
-        function _base64ToArrayBuffer(base64) {
+        function base64ToByteArray(base64) {
             const binary_string = window.atob(base64);
             const len = binary_string.length;
             const bytes = new Uint8Array(len);
             for (let i = 0; i < len; i++) {
                 bytes[i] = binary_string.charCodeAt(i);
             }
-            return bytes.buffer;
+            return bytes;
         }
 
         const zip = new JSZip();
+        let char = 1 << 15;
 
         for (const emoji of emojis) {
             const dataPrefix = "data:image/png;base64,";
-            const imgBuffer = _base64ToArrayBuffer(emoji.img.substring(dataPrefix.length));
-            const buffer = new ArrayBuffer(8 * 6 + imgBuffer.byteLength);
+            const imgBytes = base64ToByteArray(emoji.img.substring(dataPrefix.length));
+            const buffer = new ArrayBuffer(8 * 6 + imgBytes.length);
             const view = new Uint8Array(buffer);
 
             view.set([
                 1,
                 emoji.height,
-                emoji.ascent,
-                0,
-                10,
-                0,
-                imgBuffer
+                emoji.ascent
             ], 0);
 
+            view.set(new TextEncoder().encode(String.fromCodePoint(char)), 3);
+
+            view.set([0], 5);
+            view.set(imgBytes, 6);
+
             zip.file(`${emoji.name}.mcemoji`, buffer);
+            char--;
         }
 
         zip.generateAsync({ type: "blob" })
