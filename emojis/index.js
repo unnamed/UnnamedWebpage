@@ -75,11 +75,23 @@
 
     $("#save").addEventListener("click", () => {
 
+        function _base64ToArrayBuffer(base64) {
+            const binary_string = window.atob(base64);
+            const len = binary_string.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binary_string.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
         const zip = new JSZip();
 
         for (const emoji of emojis) {
-            const buffer = new ArrayBuffer(8 * 6);
-            const view = new Int32Array(buffer);
+            const dataPrefix = "data:image/png;base64,";
+            const imgBuffer = _base64ToArrayBuffer(emoji.img.substring(dataPrefix.length));
+            const buffer = new ArrayBuffer(8 * 6 + imgBuffer.byteLength);
+            const view = new Uint8Array(buffer);
 
             view.set([
                 1,
@@ -87,7 +99,8 @@
                 emoji.ascent,
                 0,
                 10,
-                0
+                0,
+                imgBuffer
             ], 0);
 
             zip.file(`${emoji.name}.mcemoji`, buffer);
