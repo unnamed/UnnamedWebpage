@@ -19,7 +19,6 @@
                 event.stopPropagation();
             } else {
                 emojis[index][property] = parse(value);
-                console.log(emojis);
             }
         });
 
