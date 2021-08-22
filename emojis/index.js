@@ -164,10 +164,6 @@
             .catch(console.error);
     });
 
-    $("#close-dialog").addEventListener("click", () => {
-        $("#dialog").classList.add("hidden");
-    });
-
     $("#save").addEventListener("click", () => {
         createZip().generateAsync({ type: "blob" })
             .then(blob => {
