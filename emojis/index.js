@@ -113,15 +113,19 @@
             const buffer = new ArrayBuffer(8 * 6 + imgBytes.length);
             const view = new Uint8Array(buffer);
 
+            view.set([1, emoji.name.length & 0xFF], 0);
+            for (let i = 0; i < emoji.name.length; i++) {
+                const c = emoji.name.codePointAt(i);
+                view.set([ c >> 8, c & 0xFF], i * 2 + 2);
+            }
             view.set([
-                1,
                 emoji.height,
                 emoji.ascent,
                 char >> 8,
                 char & 0xFF,
                 0
-            ], 0);
-            view.set(imgBytes, 6);
+            ], 2 + (emoji.name.length * 2));
+            view.set(imgBytes, 7 + (emoji.name.length) * 2);
 
             zip.file(`${emoji.name}.mcemoji`, buffer);
             char--;
