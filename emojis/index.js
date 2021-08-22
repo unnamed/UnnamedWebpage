@@ -140,9 +140,4 @@
             });
     });
 
-    addEmoji("test", undefined, 7, 7);
-    addEmoji("test", undefined, 7, 7);
-    addEmoji("test", undefined, 7, 7);
-    addEmoji("test", undefined, 7, 7);
-
 })();
