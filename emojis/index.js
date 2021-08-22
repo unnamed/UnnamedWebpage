@@ -110,7 +110,7 @@
         for (const emoji of emojis) {
             const dataPrefix = "data:image/png;base64,";
             const imgBytes = base64ToByteArray(emoji.img.substring(dataPrefix.length));
-            const buffer = new ArrayBuffer(8 * 6 + imgBytes.length);
+            const buffer = new ArrayBuffer(8 * (8 + (emoji.name.length * 2)) + imgBytes.length);
             const view = new Uint8Array(buffer);
 
             view.set([1, emoji.name.length & 0xFF], 0);
@@ -123,9 +123,11 @@
                 emoji.ascent,
                 char >> 8,
                 char & 0xFF,
-                0
+                0,
+                imgBytes.length >> 8,
+                imgBytes.length & 0xFF
             ], 2 + (emoji.name.length * 2));
-            view.set(imgBytes, 7 + (emoji.name.length) * 2);
+            view.set(imgBytes, 9 + (emoji.name.length) * 2);
 
             zip.file(`${emoji.name}.mcemoji`, buffer);
             char--;
