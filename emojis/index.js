@@ -85,16 +85,15 @@
                 addEmoji(
                     name,
                     event.target.result,
-                    7,
-                    7
+                    8,
+                    9
                 );
             });
             reader.readAsDataURL(file);
         }
     });
 
-    $("#save").addEventListener("click", () => {
-
+    function createZip() {
         function base64ToByteArray(base64) {
             const binary_string = window.atob(base64);
             const len = binary_string.length;
@@ -128,7 +127,43 @@
             char--;
         }
 
-        zip.generateAsync({ type: "blob" })
+        return zip;
+    }
+
+    let downloadId;
+
+    $("#upload").addEventListener("click", () => {
+        createZip().generateAsync({ type: "blob" })
+            .then(blob => {
+                let formData = new FormData();
+                formData.set("file", blob);
+                return fetch(
+                    'https://artemis.unnamed.team/tempfiles/upload/',
+                    { method: "POST", body: formData }
+                );
+            })
+            .then(response => response.json())
+            .then(response => {
+                const { url } = response;
+                const id =  url.split('/').pop();
+                downloadId = id;
+                $("#download-id").innerText = id;
+                $("#dialog").classList.remove("hidden");
+            });
+    });
+
+    $("#copy-command").addEventListener("click", () => {
+        navigator.clipboard.writeText(`/emojis update ${downloadId}`)
+            .then(() => $("#dialog").classList.add("hidden"))
+            .catch(console.error);
+    });
+
+    $("#close-dialog").addEventListener("click", () => {
+        $("#dialog").classList.add("hidden");
+    });
+
+    $("#save").addEventListener("click", () => {
+        createZip().generateAsync({ type: "blob" })
             .then(blob => {
                 const downloadElement = document.createElement("a");
                 downloadElement.setAttribute("href", URL.createObjectURL(blob));

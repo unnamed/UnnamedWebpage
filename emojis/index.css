@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
 }
@@ -89,11 +95,11 @@ h2 {
 }
 
 
-#save {
+.mce-button {
     display: block;
     font-family: 'minecraft-regular', monospace;
     font-size: 1.2em;
-    margin: auto;
+    margin: 20px auto;
     padding: 10px 20px;
     border: none;
 
@@ -102,8 +108,43 @@ h2 {
     color: rgba(255, 255, 255, .6);
 }
 
-#save:hover {
+.mce-button:hover {
     background: rgba(0, 0, 0, .35);
+}
+
+#dialog {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .4);
+}
+
+.dialog-box {
+    display: flex;
+    position: relative;
+    width: 500px;
+    background-color: #3f3d3f;
+
+    padding: 20px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    flex-direction: column;
+}
+
+.dialog-box * {
+    margin: 6px 0;
+}
+
+.dialog-box code {
+    background: rgba(0, 0, 0, .4);
+    padding: 5px 10px;
+}
+
+.hidden {
+    display: none;
 }
 
 @media (max-width: 1460px) {

@@ -18,6 +18,17 @@
 </head>
 <body>
 
+<div class="hidden" id="dialog">
+    <div class="dialog-box">
+        <h3 class="mc-text">Uploaded!</h3>
+        <p class="mc-text">Successfully uploaded the emojis, execute this command
+            in your Minecraft server to load them.</p>
+        <code class="mc-text">/emojis update <span id="download-id"></span></code>
+        <button class="mce-button" id="copy-command">Copy Command</button>
+        <button class="mce-button" id="close-dialog">Ok</button>
+    </div>
+</div>
+
 <div>
     <h1 class="mc-text">MCEmoji</h1>
 </div>
@@ -29,7 +40,8 @@
 <div id="emoji-container">
 </div>
 
-<button id="save">Save</button>
+<button class="mce-button" id="save">Save</button>
+<button class="mce-button" id="upload">Upload</button>
 
 <script src="../js/vendor/jszip.min.js"></script>
 <script src="index.js"></script>
