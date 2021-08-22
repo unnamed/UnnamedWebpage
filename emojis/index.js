@@ -268,11 +268,4 @@
         });
     });
 
-    addEmoji("a", "a", 0, 0, "a");
-    addEmoji("a", "a", 0, 0, "a");
-    addEmoji("a", "a", 0, 0, "a");
-    addEmoji("a", "a", 0, 0, "a");
-    addEmoji("a", "a", 0, 0, "a");
-    addEmoji("a", "a", 0, 0, "a");
-
 })();
