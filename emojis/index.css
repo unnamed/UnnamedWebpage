@@ -48,8 +48,6 @@ h2 {
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 2%;
-    overflow-x: hidden;
-    overflow-y: scroll;
 }
 
 .emoji {
@@ -61,18 +59,26 @@ h2 {
 }
 
 .emoji img {
-    max-width: 100px;
-    max-height: 70px;
+    width: 40%;
     margin: 10px;
 }
 
 .properties {
-    display: inline-flex;
-    flex: 1;
-    flex-direction: column;
+    display: inline-block;
+    width: 60%;
+    padding: 0 10px;
+}
+
+.emoji label {
+    font-family: 'minecraft-regular', monospace;
+    color: rgba(255, 255, 255, .4);
+    font-size: .8em;
 }
 
 .emoji input {
+
+    display: block;
+    width: 100%;
 
     font-family: 'minecraft-regular', monospace;
     color: rgba(255, 255, 255, .6);
@@ -82,7 +88,7 @@ h2 {
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, .6);
 
-    margin: 5px 10px;
+    margin: -5px 0 8px;
     outline: none;
 }
 

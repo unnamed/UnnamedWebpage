@@ -6,6 +6,26 @@
     const form = $(".file-input");
     const emojis = [];
 
+    function createInput(label, index, property, parse, pattern) {
+        const labelElement = document.createElement("label");
+        labelElement.innerText = label;
+        const element = document.createElement("input");
+        labelElement.appendChild(element);
+
+        element.addEventListener("keypress", event => {
+            const value = event.target.value + event.key;
+            if (!value.match(pattern)) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                emojis[index][property] = parse(value);
+                console.log(emojis);
+            }
+        });
+
+        return { label: labelElement, input: element };
+    }
+
     function addEmoji(name, img, ascent, height) {
 
         const div = document.createElement("div");
@@ -15,19 +35,20 @@
         const imgElement = document.createElement("img");
         const propertiesElement = document.createElement("div");
         propertiesElement.classList.add("properties");
-        const nameElement = document.createElement("input");
-        const ascentElement = document.createElement("input");
-        const heightElement = document.createElement("input");
+
+        const nameElement = createInput("Name", emojis.length, "name", v => v, /^[A-Za-z_]{1,14}$/g);
+        const ascentElement = createInput("Ascent", emojis.length, "ascent", parseInt, /^\d+$/g);
+        const heightElement = createInput("Height", emojis.length, "height", parseInt, /^\d+$/g);
 
         imgElement.src = img;
-        nameElement.value = name;
-        ascentElement.value = ascent;
-        heightElement.value = height;
+        nameElement.input.value = name;
+        ascentElement.input.value = ascent;
+        heightElement.input.value = height;
 
         div.appendChild(imgElement);
-        propertiesElement.appendChild(nameElement);
-        propertiesElement.appendChild(ascentElement);
-        propertiesElement.appendChild(heightElement);
+        propertiesElement.appendChild(nameElement.label);
+        propertiesElement.appendChild(ascentElement.label);
+        propertiesElement.appendChild(heightElement.label);
         div.appendChild(propertiesElement);
         container.appendChild(div);
 
@@ -118,5 +139,10 @@
                 downloadElement.remove();
             });
     });
+
+    addEmoji("test", undefined, 7, 7);
+    addEmoji("test", undefined, 7, 7);
+    addEmoji("test", undefined, 7, 7);
+    addEmoji("test", undefined, 7, 7);
 
 })();
