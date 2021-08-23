@@ -149,7 +149,8 @@
                 name.slice(0, -4), // remove the .png extension
                 event.target.result,
                 8,
-                9
+                9,
+                ""
             ));
             reader.readAsDataURL(file);
         }
