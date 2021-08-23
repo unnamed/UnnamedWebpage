@@ -154,7 +154,7 @@
             reader.readAsDataURL(file);
         }
 
-        if (errors) {
+        if (errors.length > 0) {
             dialog.show(
                 `${errors.length} errors occurred`,
                 errors.join('\n')
