@@ -103,8 +103,8 @@
         propertiesElement.classList.add("properties");
 
         const nameElement = input("name", v => v, regex(/^[A-Za-z_]{1,14}$/g));
-        const ascentElement = input("ascent", parseInt, regex(/^\d+$/g));
-        const heightElement = input("height", parseInt, regex(/^\d+$/g));
+        const ascentElement = input("ascent", parseInt, regex(/^-?\d*$/g));
+        const heightElement = input("height", parseInt, regex(/^-?\d*$/g));
         const permissionElement = input("permission", v => v, regex(/^[a-z0-9_.]+$/g));
 
         imgElement.src = img;
@@ -189,7 +189,7 @@
 
             const dataPrefix = "data:image/png;base64,";
             const imgBytes = base64ToByteArray(emoji.img.substring(dataPrefix.length));
-            const buffer = new ArrayBuffer(8 * (8 + (emoji.name.length * 2)) + imgBytes.length);
+            const buffer = new ArrayBuffer(8 * (11 + (emoji.name.length * 2)) + imgBytes.length);
             const view = new Uint8Array(buffer);
 
             view.set([1, emoji.name.length & 0xFF], 0);
@@ -198,15 +198,17 @@
                 view.set([c >> 8, c & 0xFF], i * 2 + 2);
             }
             view.set([
-                emoji.height,
-                emoji.ascent,
+                emoji.height >> 8,
+                emoji.height & 0xFF,
+                emoji.ascent >> 8,
+                emoji.ascent & 0xFF,
                 char >> 8,
                 char & 0xFF,
                 0,
                 imgBytes.length >> 8,
                 imgBytes.length & 0xFF
             ], 2 + (emoji.name.length * 2));
-            view.set(imgBytes, 9 + (emoji.name.length) * 2);
+            view.set(imgBytes, 11 + (emoji.name.length) * 2);
 
             zip.file(`${emoji.name}.mcemoji`, buffer);
             char--;
