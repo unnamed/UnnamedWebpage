@@ -162,6 +162,10 @@ h2 {
     display: none;
 }
 
+.input-error input {
+    color: rgba(255, 100, 100, .8);
+}
+
 @media (max-width: 1460px) {
     .emoji {
         width: 28%;

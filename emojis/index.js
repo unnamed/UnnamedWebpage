@@ -65,12 +65,12 @@
             const element = document.createElement("input");
             labelElement.appendChild(element);
 
-            element.addEventListener("keypress", event => {
-                const value = event.target.value + event.key;
+            element.addEventListener("input", event => {
+                const value = event.target.value;
                 if (!validate(value)) {
-                    event.preventDefault();
-                    event.stopPropagation();
+                    labelElement.classList.add("input-error");
                 } else {
+                    labelElement.classList.remove("input-error");
                     emojis[index][property] = parse(value);
                 }
             });
