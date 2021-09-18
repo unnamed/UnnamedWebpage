@@ -8,7 +8,7 @@
 
     const container = $(".emoji-container");
     const form = $(".file-input");
-    const emojis = [];
+    const emojis = new Map();
 
     /**
      * Object representing an information dialog,
@@ -51,13 +51,10 @@
 
     function addEmoji(name, img, ascent, height, permission) {
 
-        if (emojis.filter(e => e !== undefined).some(e => e.name === name)) {
+        if (emojis.has(name)) {
             // if the name is duplicated, use other name
             name = Math.floor(Math.random() * 1E10).toString(36);
         }
-
-        // index for this emoji
-        const index = emojis.length;
 
         function input(property, parse, validate) {
             const labelElement = document.createElement("label");
@@ -71,7 +68,7 @@
                     labelElement.classList.add("input-error");
                 } else {
                     labelElement.classList.remove("input-error");
-                    emojis[index][property] = parse(value);
+                    emojis.get(name)[property] = parse(value);
                 }
             });
 
@@ -95,7 +92,7 @@
 
         deleteButton.addEventListener("click", () => {
             // set to undefined and don't change the others emojis index
-            emojis[index] = undefined;
+            emojis.delete(name);
             // remove the card
             container.removeChild(div);
         });
@@ -118,7 +115,7 @@
 
         container.appendChild(div);
 
-        emojis.push({name, img, ascent, height, permission });
+        emojis.set(name, {name, img, ascent, height, permission });
     }
 
     on(form, "dragover dragenter", event => {
@@ -182,10 +179,7 @@
         const zip = new JSZip();
         let char = 1 << 15;
 
-        for (const emoji of emojis) {
-
-            // the array may contain undefined values
-            if (!emoji) continue;
+        for (const emoji of emojis.values()) {
 
             const dataPrefix = "data:image/png;base64,";
             const imgBytes = base64ToByteArray(emoji.img.substring(dataPrefix.length));
