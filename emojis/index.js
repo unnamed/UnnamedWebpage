@@ -161,58 +161,60 @@
     });
 
     /**
-     * Creates a zip containing all the emojis using
+     * Creates a file containing all the emojis using
      * the MCEmoji format
-     * @returns {Promise<Blob>} The ZIP blob
+     * @returns {Promise<Blob>} The resulting blob
      */
-    async function createZip() {
-        function base64ToByteArray(base64) {
-            const binary_string = window.atob(base64);
-            const len = binary_string.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binary_string.charCodeAt(i);
-            }
-            return bytes;
-        }
+    async function createBlob() {
 
-        const zip = new JSZip();
+        const data = [];
         let char = 1 << 15;
+
+        // format version
+        data.push(1);
+
+        // emoji length
+        data.push(emojis.size);
 
         for (const emoji of emojis.values()) {
 
-            const dataPrefix = "data:image/png;base64,";
-            const imgBytes = base64ToByteArray(emoji.img.substring(dataPrefix.length));
-            const buffer = new ArrayBuffer(8 * (11 + (emoji.name.length * 2)) + imgBytes.length);
-            const view = new Uint8Array(buffer);
-
-            view.set([1, emoji.name.length & 0xFF], 0);
+            // emoji name
+            data.push(emoji.name.length & 0xFF);
             for (let i = 0; i < emoji.name.length; i++) {
                 const c = emoji.name.codePointAt(i);
-                view.set([c >> 8, c & 0xFF], i * 2 + 2);
+                data.set([c >> 8, c & 0xFF]);
             }
-            view.set([
-                emoji.height >> 8,
-                emoji.height & 0xFF,
-                emoji.ascent >> 8,
-                emoji.ascent & 0xFF,
-                char >> 8,
-                char & 0xFF,
-                0,
-                imgBytes.length >> 8,
-                imgBytes.length & 0xFF
-            ], 2 + (emoji.name.length * 2));
-            view.set(imgBytes, 11 + (emoji.name.length) * 2);
 
-            zip.file(`${emoji.name}.mcemoji`, buffer);
+            // height, ascent and character
+            data.push(
+                emoji.height >> 8, emoji.height & 0xFF,
+                emoji.ascent >> 8, emoji.ascent & 0xFF,
+                char >> 8, char & 0xFF
+            );
+
+            // permission write
+            data.push(0);
+
+            // image write
+            const bin = window.atob(emoji.img.substring("data:image/png;base64,".length));
+            const len = bin.length;
+
+            data.push(len >> 8, len & 0xFF);
+            for (let i = 0; i < len; i++) {
+                data.push(bin.charCodeAt(i));
+            }
+
             char--;
         }
 
-        return zip.generateAsync({type: "blob"});
+        return new Blob(
+            [ new Uint8Array(data) ],
+            { type: 'octet/stream' }
+        );
     }
 
     $(".upload").addEventListener("click", () => {
-        if (emojis.length < 1) {
+        if (emojis.size < 1) {
             // no emojis, return
             dialog.show(
                 "Error",
@@ -220,7 +222,7 @@
             );
             return;
         }
-        createZip()
+        createBlob()
             .then(blob => {
                 const formData = new FormData();
                 formData.set("file", blob);
@@ -247,7 +249,7 @@
     });
 
     $(".save").addEventListener("click", () => {
-        if (emojis.length < 1) {
+        if (emojis.size < 1) {
             // no emojis, return
             dialog.show(
                 "Error",
@@ -255,10 +257,10 @@
             );
             return;
         }
-        createZip().then(blob => {
+        createBlob().then(blob => {
             const downloadElement = document.createElement("a");
             downloadElement.setAttribute("href", URL.createObjectURL(blob));
-            downloadElement.setAttribute("download", "emojis.zip");
+            downloadElement.setAttribute("download", "emojis.mcemoji");
             document.body.appendChild(downloadElement);
             downloadElement.click();
             downloadElement.remove();
