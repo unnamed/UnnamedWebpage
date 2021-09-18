@@ -182,7 +182,7 @@
             data.push(emoji.name.length & 0xFF);
             for (let i = 0; i < emoji.name.length; i++) {
                 const c = emoji.name.codePointAt(i);
-                data.set([c >> 8, c & 0xFF]);
+                data.push(c >> 8, c & 0xFF);
             }
 
             // height, ascent and character
