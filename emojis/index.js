@@ -213,7 +213,77 @@
         );
     }
 
-    $(".upload").addEventListener("click", () => {
+    async function load() {
+
+        const input = document.createElement("input");
+        input.type = "file";
+        input.addEventListener("change", event => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.readAsArrayBuffer(file);
+            reader.addEventListener("load", loadEvent => {
+                /** @type {ArrayBuffer} */
+                const buffer = loadEvent.target.result;
+                const view = new Uint8Array(buffer);
+                let cursor = 0;
+
+                function readShort() {
+                    let byte1 = view.at(cursor++);
+                    let byte2 = view.at(cursor++);
+                    return (byte1 << 8) + byte2;
+                }
+
+                const version = view.at(cursor++);
+                const emojiLength = view.at(cursor++);
+
+                for (let i = 0; i < emojiLength; i++) {
+
+                    // read name
+                    const nameLength = view.at(cursor++);
+                    let name = "";
+
+                    for (let j = 0; j < nameLength; j++) {
+                        name += String.fromCharCode(readShort());
+                    }
+
+                    // height, ascent and character
+                    const height = readShort();
+                    const ascent = readShort();
+                    const character = readShort();
+
+                    // read permission
+                    const permissionLength = view.at(cursor++);
+                    let permission = "";
+
+                    for (let j = 0; j < permissionLength; j++) {
+                        permission += String.fromCharCode(readShort());
+                    }
+
+                    // image read
+                    const imageLength = readShort();
+                    let image = "";
+
+                    for (let j = 0; j < imageLength; j++) {
+                        image += String.fromCharCode(view.at(cursor++));
+                    }
+
+                    const base64 = "data:image/png;base64," + window.btoa(image);
+
+                    addEmoji(name, base64, ascent, height, permission);
+                }
+            });
+        });
+        document.body.appendChild(input);
+        input.click();
+        input.remove();
+    }
+
+    $(".import").addEventListener("click", () => {
+        load();
+    });
+
+    $(".export").addEventListener("click", () => {
         if (emojis.size < 1) {
             // no emojis, return
             dialog.show(
