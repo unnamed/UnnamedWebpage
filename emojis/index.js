@@ -233,24 +233,24 @@
                     let cursor = 0;
 
                     function readShort() {
-                        let byte1 = view.at(cursor++);
-                        let byte2 = view.at(cursor++);
+                        let byte1 = view[cursor++];
+                        let byte2 = view[cursor++];
                         return (byte1 << 8) + byte2;
                     }
 
-                    const version = view.at(cursor++);
+                    const version = view[cursor++];
 
                     if (version !== 1) {
                         reject(new Error("Invalid format version"));
                         return;
                     }
 
-                    const emojiLength = view.at(cursor++);
+                    const emojiLength = view[cursor++];
 
                     for (let i = 0; i < emojiLength; i++) {
 
                         // read name
-                        const nameLength = view.at(cursor++);
+                        const nameLength = view[cursor++];
                         let name = "";
 
                         for (let j = 0; j < nameLength; j++) {
@@ -263,7 +263,7 @@
                         const character = readShort();
 
                         // read permission
-                        const permissionLength = view.at(cursor++);
+                        const permissionLength = view[cursor++];
                         let permission = "";
 
                         for (let j = 0; j < permissionLength; j++) {
@@ -275,7 +275,7 @@
                         let image = "";
 
                         for (let j = 0; j < imageLength; j++) {
-                            image += String.fromCharCode(view.at(cursor++));
+                            image += String.fromCharCode(view[cursor++]);
                         }
 
                         const base64 = "data:image/png;base64," + window.btoa(image);
