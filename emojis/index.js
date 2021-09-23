@@ -193,7 +193,11 @@
             );
 
             // permission write
-            data.push(0);
+            data.push(emoji.permission.length & 0xFF);
+            for (let i = 0; i < emoji.permission.length; i++) {
+                const c = emoji.permission.codePointAt(i);
+                data.push(c >> 8, c & 0xFF);
+            }
 
             // image write
             const bin = window.atob(emoji.img.substring("data:image/png;base64,".length));
